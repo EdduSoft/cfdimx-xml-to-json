@@ -8,7 +8,7 @@ use Lib\Helper;
 
 class Pagos33
 {
-    public $Pagos = [];
+    public $Pago = [];
     public $Version;
 
 
@@ -19,7 +19,7 @@ class Pagos33
                 $this->Version = Helper::getAttr('Version', $pago);
                 $xmlPagos = $this->getPagos($comp);
                 foreach($xmlPagos as $pag) {
-                    array_push($this->Pagos, Pago33::getPagos($pag));
+                    array_push($this->Pago, Pago33::getPagos($pag));
                 }
                 return $this;
             } else {

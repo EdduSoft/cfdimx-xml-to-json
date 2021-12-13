@@ -39,7 +39,7 @@ class Comprobante33
     //Lib\Cfdi33\Receptor33
     public $Receptor;
     //Lib\Cfdi33\Conceptos33
-    public $Conceptos;
+    public $Conceptos = [];
     //Lib\Cfdi33\Impuestos33
     public $Impuestos;
     //Lib\Cfdi33\Complemento33

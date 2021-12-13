@@ -46,7 +46,6 @@ class Concepto33
             
         }catch(\Exception $e){
             return null;
-            /*Ocurrio un error al obtener los atributos del concepto*/
         }
     }
     

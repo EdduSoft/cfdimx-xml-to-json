@@ -6,6 +6,7 @@ require_once __DIR__ . "../../vendor/autoload.php";
 use PHPUnit\Framework\TestCase;
 
 use Lib\Cfdi33\Cfdi33;
+use Lib\Cfdi33\Xml33;
 use Lib\Cfdi40\Cfdi40;
 
 class xmlToJsonTest extends TestCase
@@ -21,21 +22,33 @@ class xmlToJsonTest extends TestCase
         $normal = $this->getCfdi33("../../assets/33/facturacion_normal.xml");
         echo json_encode($normal, JSON_PRETTY_PRINT);
         $this->assertNotNull($normal);
+        $xml = new Xml33($normal);
+        $this->assertNotNull($xml->xml);
+        echo $xml->xml;
 
         # Payment complement
         $comp = $this->getCfdi33("../../assets/33/complemento_pago.xml");
         echo json_encode($comp, JSON_PRETTY_PRINT);
         $this->assertNotNull($comp);
+        $xml = new Xml33($comp);
+        $this->assertNotNull($xml->xml);
+        echo $xml->xml;
 
         # Credit note
         $note = $this->getCfdi33("../../assets/33/nota_credito.xml");
         echo json_encode($note, JSON_PRETTY_PRINT);
         $this->assertNotNull($note);
+        $xml = new Xml33($note);
+        $this->assertNotNull($xml->xml);
+        echo $xml->xml;
 
         # Substitution
         $sus = $this->getCfdi33("../../assets/33/sustitucion.xml");
         echo json_encode($sus, JSON_PRETTY_PRINT);
         $this->assertNotNull($sus);
+        $xml = new Xml33($sus);
+        $this->assertNotNull($xml->xml);
+        echo $xml->xml;
 
         # TODO:
         # Nomina

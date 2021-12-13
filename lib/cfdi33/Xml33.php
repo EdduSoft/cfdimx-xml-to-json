@@ -4,7 +4,7 @@ namespace Lib\Cfdi33;
 
 class Xml33
 {
-    public $xml;
+    public $xml = null;
     public $cadena_original;
 
     /**
@@ -117,7 +117,7 @@ class Xml33
                         "Descripcion" => $this->utf8toiso8859($con->Descripcion),
                         "ValorUnitario" => number_format($con->ValorUnitario, 2, '.', ''),
                         "Importe" => number_format($con->Importe, 2, '.', ''),
-                        "Descuento" => number_format($con->Descuento, 2, '.', '')
+                        "Descuento" => !empty($con->Descuento) ?? number_format($con->Descuento, 2, '.', '')
                     )
                 );
 
@@ -261,11 +261,11 @@ class Xml33
 
 
             #=== 10.12 Se guarda el archivo .XML antes de ser timbrado =======================
-            $cfdi = $xml->saveXML();
-
-            return $cfdi;
+            $this->xml = $xml->saveXML();
         } catch (\Exception $e) {
-            return null;
+            var_dump($e->getMessage());
+            var_dump($e->getLine());
+            $this->xml = null;
         }
     }
 
@@ -306,6 +306,9 @@ class Xml33
     public function utf8toiso8859($string)
     {
         $returns = "";
+        if (empty($string)) {
+            return $returns;
+        }
         $UTF8len = array(
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
