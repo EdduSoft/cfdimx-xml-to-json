@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 use Lib\Helper;
 
-class Retencion40
+class Retencion33
 {
     public $Base;
     public $Impuesto;
@@ -14,8 +14,8 @@ class Retencion40
     
     public static function getRetencion($retencion){  
         try{
-            $ret = new Retencion40();
-            $ret->Base = Helper::getAttr('Base', $retencion);
+            $ret = new Retencion33();
+            $ret->Base =Helper::getAttr('Base', $retencion);
             $ret->Impuesto = Helper::getAttr('Impuesto', $retencion);
             $ret->TipoFactor = Helper::getAttr('TipoFactor', $retencion);
             $ret->TasaOCuota = Helper::getAttr('TasaOCuota', $retencion);

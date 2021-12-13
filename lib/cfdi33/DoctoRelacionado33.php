@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 
 
-class DoctoRelacionado40
+class DoctoRelacionado33
 {
     public $IdDocumento;
 	public $MonedaDR;

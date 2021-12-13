@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cfdi40;
-
+namespace Lib\Cfdi33;
 
 use Lib\Helper;
-class TimbreFiscalDigital40
+
+class TimbreFiscalDigital33 
 {
     public $Version;
     public $UUID;

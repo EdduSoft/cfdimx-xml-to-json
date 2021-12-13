@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Cfdi40;
+namespace Lib\Cfdi40;
 
-use Illuminate\Database\Eloquent\Model;
+use Lib\Helper;
 
 class Receptor40
 {
@@ -14,32 +14,32 @@ class Receptor40
     public $DomicilioFiscalReceptor;
     public $RegimenFiscalReceptor;
 
-    
-    public static function getReceptor($xml){
+
+    public static function getReceptor($xml)
+    {
         $obj = new Receptor40();
-        if($obj->getNode($xml) != null){
+        if ($obj->getNode($xml) != null) {
             $receptor = $obj->getNode($xml);
-            $obj->Rfc = $receptor->getAttribute('Rfc');
-            $obj->Nombre = $receptor->getAttribute('Nombre');
-            $obj->UsoCFDI = $receptor->getAttribute('UsoCFDI');
-            $obj->Curp = $receptor->getAttribute('Curp');
-            $obj->RegimenFiscalReceptor = $receptor->getAttribute('RegimenFiscalReceptor');
-            $obj->DomicilioFiscalReceptor = $receptor->getAttribute('DomicilioFiscalReceptor');
+            $obj->Rfc = Helper::getAttr('Rfc', $receptor);
+            $obj->Nombre = Helper::getAttr('Nombre', $receptor);
+            $obj->UsoCFDI = Helper::getAttr('UsoCFDI', $receptor);
+            $obj->Curp = Helper::getAttr('Curp', $receptor);
+            $obj->RegimenFiscalReceptor = Helper::getAttr('RegimenFiscalReceptor', $receptor);
+            $obj->DomicilioFiscalReceptor = Helper::getAttr('DomicilioFiscalReceptor', $receptor);
 
             return $obj;
-            
-        }else{
+        } else {
             return null;
-        } 
+        }
     }
-    
-    public function getNode($xml){
-        try{
+
+    public function getNode($xml)
+    {
+        try {
             $receptor = $xml->getElementsByTagName('Receptor');
-            return $receptor[0]; 
-        }catch(\Exception $e){
+            return $receptor[0];
+        } catch (\Exception $e) {
             return null;
-            /*dd('Ocurrio un error al obtener los datos del Emisor', $e);*/
-        } 
+        }
     }
 }

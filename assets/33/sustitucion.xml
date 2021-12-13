@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" Version="3.3" Folio="4655" Fecha="2021-11-24T13:19:05" FormaPago="01" NoCertificado="00001000000508287371" SubTotal="0.01" Descuento="0.00" Moneda="MXN" TipoCambio="1" Total="0.01" TipoDeComprobante="I" MetodoPago="PUE" LugarExpedicion="27200" Sello="HsU5dZbNzOjH3/bNPhXGKGMwsfR8TJsC0rzQ0s4AQYWKNK2l31KlDW5BeUHAzuj4fe9K1RAlpqxjTK2hNjjgWtQjHaDizNl+YHZ0V10FOu4v8mMpnqGjtpNh3Cya288KXyBdL6reYzJCOQyLRH5bavy0/qLDy8GZ+no+qJCRBY0FcgORrZeNFavX37hfvhN/t3t34ZppbIm07S3r8haS0Q1QigVFPAbaXvB9956pA6PJHNfdoMzV2DYcoKWytkbVRO3OJL58WwyMGFgINKJwtbem9lNuVZqB7t1RoZaL2UT2jlgKeUwJGkxKmDM3ZfjGh6LFgx1kSkkUbRVlwVyH/g==" Certificado="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">
+    <cfdi:CfdiRelacionados TipoRelacion="04">
+        <cfdi:CfdiRelacionado UUID="3D2B14BE-AD62-4DB3-9D00-DBCCDB7BF590"/>
+    </cfdi:CfdiRelacionados>
+    <cfdi:Emisor Rfc="CACS7509034B1" Nombre="SALVADOR GUSTAVO CARDONA CASTELLANOS" RegimenFiscal="612"/>
+    <cfdi:Receptor Rfc="DISE920715TY9" Nombre="EDUARDO DIAZ SALAZAR" UsoCFDI="G03"/>
+    <cfdi:Conceptos>
+        <cfdi:Concepto ClaveProdServ="01010101" Cantidad="1" ClaveUnidad="E48" Unidad="NA" Descripcion="Pruebas 1" ValorUnitario="0.01" Importe="0.01" Descuento="0.00">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Base="0.01" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="0.00"/>
+                </cfdi:Traslados>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="0.00">
+        <cfdi:Traslados>
+            <cfdi:Traslado Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="0.00"/>
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento>
+        <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" SelloCFD="HsU5dZbNzOjH3/bNPhXGKGMwsfR8TJsC0rzQ0s4AQYWKNK2l31KlDW5BeUHAzuj4fe9K1RAlpqxjTK2hNjjgWtQjHaDizNl+YHZ0V10FOu4v8mMpnqGjtpNh3Cya288KXyBdL6reYzJCOQyLRH5bavy0/qLDy8GZ+no+qJCRBY0FcgORrZeNFavX37hfvhN/t3t34ZppbIm07S3r8haS0Q1QigVFPAbaXvB9956pA6PJHNfdoMzV2DYcoKWytkbVRO3OJL58WwyMGFgINKJwtbem9lNuVZqB7t1RoZaL2UT2jlgKeUwJGkxKmDM3ZfjGh6LFgx1kSkkUbRVlwVyH/g==" NoCertificadoSAT="00001000000504204441" RfcProvCertif="CVD110412TF6" UUID="08ED450C-5CB2-4B67-8815-CA994AC7A104" FechaTimbrado="2021-11-24T13:19:05" SelloSAT="L2xbliFdRQ10BgG0jmTJhR4zYumqZU+pEqib/CCHB6xezG8RBj3/yA9JJ0v15b8B4AylLfOS8YdMLAk7quX/NaU6DkDuz3t1n/VuYGYWIn7UmISSDejC6jaU9uu11AndIJIprMFUrEvTwLecIbcwM0bqC8aPcUhZXN2qp2dQIYt5HfYUtV0DDBHHg7pWT/5ugJyok/dllf4LUfaIwq9hMP7B+nrjIzuRZkG9DA+Xv6JFziTa1N01fWR6qTH0N1CVhrC0mFvD2uRO84rDzAKTcIiGj/BlfEGsXeqvlX4fs0rrImUZsn90wWWv3FClLYNBCbeahqdPLkJmyMHbHdW8UQ=="/>
+    </cfdi:Complemento>
+</cfdi:Comprobante>

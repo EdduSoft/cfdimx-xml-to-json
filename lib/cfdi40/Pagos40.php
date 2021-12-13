@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Cfdi40;
+namespace Lib\Cfdi40;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Cfdi40\Pago40;
+
+use Lib\Cfdi40\Pago40;
 
 class Pagos40
 {

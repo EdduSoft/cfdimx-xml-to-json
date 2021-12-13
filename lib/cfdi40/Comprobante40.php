@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Cfdi40;
+namespace Lib\Cfdi40;
 
-use Illuminate\Database\Eloquent\Model;
+
 use \DOMDocument;
-use App\Cfdi40\Emisor40;
-use App\Cfdi40\Receptor40;
-use App\Cfdi40\Conceptos40;
-use App\Cfdi40\Impuestos40;
-use App\Cfdi40\Complemento40;
-use App\Cfdi40\Relacionados40;
+use Lib\Cfdi40\Emisor40;
+use Lib\Cfdi40\Receptor40;
+use Lib\Cfdi40\Conceptos40;
+use Lib\Cfdi40\Impuestos40;
+use Lib\Cfdi40\Complemento40;
+use Lib\Cfdi40\Relacionados40;
+
+use Lib\Helper;
 
 class Comprobante40
 {
@@ -31,17 +33,17 @@ class Comprobante40
     public  $Descuento;
     public  $TipoCambio;
     public  $LugarExpedicion;
-    //App\Relacionado33
+    //Lib\Cfdi40\Relacionado33
     public $Relacionados;
-    //App\Emisor33
+    //Lib\Cfdi40\Emisor33
     public $Emisor;
-    //App\Receptor33
+    //Lib\Cfdi40\Receptor33
     public $Receptor;
-    //App\Conceptos33
+    //Lib\Cfdi40\Conceptos33
     public $Conceptos;
-    //App\Impuestos33
+    //Lib\Cfdi40\Impuestos33
     public $Impuestos;
-    //App\Complemento33
+    //Lib\Cfdi40\Complemento33
     public $Complemento;
     
     
@@ -53,23 +55,23 @@ class Comprobante40
             if($obj->getComprobante($xml) != null){
                 $comprobante = $obj->getComprobante($xml);
                 $obj = new Comprobante40();
-                $obj->Version = $comprobante[0]->getAttribute('Version');
-                $obj->Serie = $comprobante[0]->getAttribute('Serie');
-                $obj->Folio = $comprobante[0]->getAttribute('Folio') == "" ? null : $comprobante[0]->getAttribute('Folio');
-                $obj->Fecha = $comprobante[0]->getAttribute('Fecha');
-                $obj->Sello = $comprobante[0]->getAttribute('Sello');
-                $obj->NoCertificado = $comprobante[0]->getAttribute('NoCertificado');
-                $obj->Certificado = $comprobante[0]->getAttribute('Certificado');
-                $obj->SubTotal = $comprobante[0]->getAttribute('SubTotal');
-                $obj->Moneda = $comprobante[0]->getAttribute('Moneda');
-                $obj->Total = $comprobante[0]->getAttribute('Total');
-                $obj->TipoDeComprobante = $comprobante[0]->getAttribute('TipoDeComprobante'); 
-                $obj->FormaPago = $comprobante[0]->getAttribute('FormaPago');
-                $obj->MetodoPago = $comprobante[0]->getAttribute('MetodoPago');
-                $obj->CondicionesDePago = $comprobante[0]->getAttribute('CondicionesDePago');
-                $obj->Descuento = $comprobante[0]->getAttribute('Descuento') == "" ? 0 : $comprobante[0]->getAttribute('Descuento');
-                $obj->TipoCambio = $comprobante[0]->getAttribute('TipoCambio');
-                $obj->LugarExpedicion = $comprobante[0]->getAttribute('LugarExpedicion');
+                $obj->Version = Helper::getAttr('Version',  $comprobante[0]);
+                $obj->Serie = Helper::getAttr('Serie',  $comprobante[0]);
+                $obj->Folio = Helper::getAttr('Folio',  $comprobante[0]) == "" ? null : Helper::getAttr('Folio',  $comprobante[0]);
+                $obj->Fecha = Helper::getAttr('Fecha',  $comprobante[0]);
+                $obj->Sello = Helper::getAttr('Sello',  $comprobante[0]);
+                $obj->NoCertificado = Helper::getAttr('NoCertificado',  $comprobante[0]);
+                $obj->Certificado = Helper::getAttr('Certificado',  $comprobante[0]);
+                $obj->SubTotal = Helper::getAttr('SubTotal',  $comprobante[0]);
+                $obj->Moneda = Helper::getAttr('Moneda',  $comprobante[0]);
+                $obj->Total = Helper::getAttr('Total',  $comprobante[0]);
+                $obj->TipoDeComprobante = Helper::getAttr('TipoDeComprobante',  $comprobante[0]); 
+                $obj->FormaPago = Helper::getAttr('FormaPago',  $comprobante[0]);
+                $obj->MetodoPago = Helper::getAttr('MetodoPago',  $comprobante[0]);
+                $obj->CondicionesDePago = Helper::getAttr('CondicionesDePago',  $comprobante[0]);
+                $obj->Descuento = Helper::getAttr('Descuento',  $comprobante[0]) == "" ? 0 : Helper::getAttr('Descuento',  $comprobante[0]);
+                $obj->TipoCambio = Helper::getAttr('TipoCambio',  $comprobante[0]);
+                $obj->LugarExpedicion = Helper::getAttr('LugarExpedicion',  $comprobante[0]);
 
                 $obj->Emisor = Emisor40::getEmisor($xml);
                 $obj->Receptor = Receptor40::getReceptor($xml);
@@ -92,7 +94,6 @@ class Comprobante40
             return $xml->getElementsByTagName('Comprobante');           
         }catch(\Exception $e){
             return null;
-            /*'Ocurrio un error al obtener los datos del comprobante'*/
         }        
     }
 }

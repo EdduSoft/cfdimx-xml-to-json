@@ -1,11 +1,12 @@
 <?php
 
-namespace Lib\Cfdi40;
-use Lib\Cfdi40\Relacionado40;
+namespace Lib\Cfdi33;
+use Lib\Cfdi33\Relacionado33;
 
 use Lib\Helper;
 
-class Relacionados40
+
+class Relacionados33
 {
 
     public $TipoRelacion;
@@ -14,13 +15,13 @@ class Relacionados40
     public static function getRelacionados($xml){
         try{
 
-            $obj = new Relacionados40();
+            $obj = new Relacionados33();
 
             if($obj->getNode($xml) != null && count($obj->getNode($xml)) > 0){
                 $relacionado = $obj->getNode($xml);
                 if($relacionado[0] != null){
                     $obj->TipoRelacion = Helper::getAttr('TipoRelacion', $relacionado[0]);
-                    $obj->Relacionado = Relacionado40::getRelacionados($relacionado);
+                    $obj->Relacionado = Relacionado33::getRelacionados($relacionado);
                     return $obj;
                 }else{
                     return null;

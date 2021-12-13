@@ -1,16 +1,11 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 
+use Lib\Cfdi33\TimbreFiscalDigital33;
 
-use Lib\Cfdi40\TimbreFiscalDigital40;
-use Lib\Cfdi40\Nomina40;
-use Lib\Cfdi40\ComercioExterior40;
-use Lib\Cfdi40\Pagos40;
-use Lib\Cfdi40\ImpuestosLocales40;
-
-class Complemento40
+class Complemento33 
 {
     
     public $TimbreFiscalDigital;
@@ -23,18 +18,14 @@ class Complemento40
     
     public static function getComplemento($xml){
         try{
-            $obj = new Complemento40();
+            $obj = new Complemento33();
             if($obj->getNode($xml) != null){
                 $complemento = $obj->getNode($xml);
-                $obj->TimbreFiscalDigital = new TimbreFiscalDigital40($complemento);
+                $obj->TimbreFiscalDigital = new TimbreFiscalDigital33($complemento);
+                $obj->Pagos = new Pagos33($complemento);
                 //$obj->Nomina = new Nomina33($complemento);
                 //$obj->ComercioExterior = new ComercioExterior33($complemento);
-                //$obj->Pagos = new Pagos33($complemento);
                 //$obj->ImpuestosLocales = new ImpuestosLocales33($complememento);
-                
-                
-                
-
                 return $obj;
 
             }else{

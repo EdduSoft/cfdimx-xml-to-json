@@ -1,10 +1,9 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace cfdi33;
 
 
-
-class ComercioExterior40
+class ComercioExterior33
 {
 
     public $Calle;

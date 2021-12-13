@@ -1,13 +1,14 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 
 
-use Lib\Cfdi40\Impuestos40;
-use Lib\Cfdi40\CuentaPredial40;
+use Lib\Cfdi33\Impuestos33;
+use Lib\Cfdi33\CuentaPredial33;
 use Lib\Helper;
-class Concepto40
+
+class Concepto33
 {
     public $ClaveProdServ;
     public $ClaveUnidad;
@@ -20,12 +21,12 @@ class Concepto40
     public $Importe;
     public $Impuestos;
     public $CuentaPredial;
+    
+    public static function getConcepto($concepto){
+        try{
+            
 
-    public static function getConcepto($concepto)
-    {
-        try {
-
-            $con = new Concepto40();
+            $con = new Concepto33();
             $con->ClaveProdServ = Helper::getAttr('ClaveProdServ', $concepto);
 
             $con->ClaveUnidad = Helper::getAttr('ClaveUnidad', $concepto);
@@ -35,14 +36,19 @@ class Concepto40
             $con->Descripcion = Helper::getAttr('Descripcion', $concepto);
             $con->ValorUnitario = Helper::getAttr('ValorUnitario', $concepto);
             $con->Importe = Helper::getAttr('Importe', $concepto);
-            $con->Impuestos = new Impuestos40();
+            $con->Impuestos = new Impuestos33();
             $con->Descuento = Helper::getAttr('Descuento', $concepto);
             $con->Impuestos = $con->Impuestos->getImpuestos($concepto, 0);
             $con->CuentaPredial = Helper::getAttr('cve_catastral', $concepto);
 
             return $con;
-        } catch (\Exception $e) {
+
+            
+        }catch(\Exception $e){
             return null;
+            /*Ocurrio un error al obtener los atributos del concepto*/
         }
     }
+    
+
 }

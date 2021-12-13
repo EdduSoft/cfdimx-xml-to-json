@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 use Lib\Helper;
 
-class Emisor40
+class Emisor33 
 {
     public $Rfc;
     public $Nombre;
@@ -12,7 +12,7 @@ class Emisor40
     public $Curp;
     
     public static function getEmisor($xml){
-        $obj = new Emisor40();
+        $obj = new Emisor33();
         if($obj->getNode($xml) != null){
             $emisor = $obj->getNode($xml);
             $obj->Rfc = Helper::getAttr('Rfc', $emisor);

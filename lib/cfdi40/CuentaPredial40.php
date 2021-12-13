@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Cfdi40;
+namespace Lib\Cfdi40;
 
-use Illuminate\Database\Eloquent\Model;
 
-use App\Cfdi40\Impuestos33;
+
+use Lib\Cfdi40\Impuestos33;
 
 class CuentaPredial40
 {

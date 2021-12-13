@@ -1,23 +1,23 @@
 <?php
 
-namespace Lib\Cfdi40;
+namespace Lib\Cfdi33;
 
 
 
-use Lib\Cfdi40\Concepto40;
+use Lib\Cfdi33\Concepto33;
 
-class Conceptos40
+class Conceptos33
 {
     public $Conceptos;
     
     public static function getConceptos($xml){
-        $obj = new Conceptos40();
+        $obj = new Conceptos33();
         $obj->Conceptos = array();
         
         if($obj->getNode($xml) != null){
             $concep = $obj->getNode($xml);
             foreach($concep as $concepto){
-                array_push($obj->Conceptos, Concepto40::getConcepto($concepto));
+                array_push($obj->Conceptos, Concepto33::getConcepto($concepto));
             }
             return $obj;
 
