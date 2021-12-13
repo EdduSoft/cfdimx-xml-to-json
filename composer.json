@@ -1,0 +1,14 @@
+{
+    "name": "cfdimx/xml-to-json",
+    "description": "Convierte un xml a un objeto json",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eduardo Díaz",
+            "email": "eddusoft@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
