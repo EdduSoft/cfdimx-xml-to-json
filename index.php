@@ -1,4 +1,4 @@
 <?php
 
-echo "Hellow Pinder";
+echo "Hello Pinder";
 
