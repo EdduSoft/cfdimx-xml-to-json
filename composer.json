@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Lib\\": "./lib/"
+            "Lib\\": "lib/"
         }
     },
     "autoload-dev": {
