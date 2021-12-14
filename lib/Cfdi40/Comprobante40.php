@@ -36,15 +36,15 @@ class Comprobante40
     //Lib\Cfdi40\Relacionado40
     public $Relacionados;
     //Lib\Cfdi40\Emisor40
-    public $Emisor;
+    public ?Emisor40 $Emisor;
     //Lib\Cfdi40\Receptor40
-    public $Receptor;
+    public ?Receptor40 $Receptor;
     //Lib\Cfdi40\Conceptos40
     public $Conceptos;
     //Lib\Cfdi40\Impuestos40
-    public $Impuestos;
+    public ?Impuestos40 $Impuestos;
     //Lib\Cfdi40\Complemento40
-    public $Complemento;
+    public ?Complemento40 $Complemento;
 
 
 

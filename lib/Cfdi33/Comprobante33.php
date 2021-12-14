@@ -33,17 +33,17 @@ class Comprobante33
     public  $TipoCambio;
     public  $LugarExpedicion;
     //Lib\Cfdi33\Relacionado33
-    public $Relacionados;
+    public ?Relacionados33 $Relacionados;
     //Lib\Cfdi33\Emisor33
-    public $Emisor;
+    public ?Emisor33 $Emisor;
     //Lib\Cfdi33\Receptor33
-    public $Receptor;
+    public ?Receptor33 $Receptor;
     //Lib\Cfdi33\Conceptos33
-    public $Conceptos = [];
+    public array $Conceptos;
     //Lib\Cfdi33\Impuestos33
-    public $Impuestos;
+    public ?Impuestos33 $Impuestos;
     //Lib\Cfdi33\Complemento33
-    public $Complemento;
+    public ?Complemento33 $Complemento;
 
 
 

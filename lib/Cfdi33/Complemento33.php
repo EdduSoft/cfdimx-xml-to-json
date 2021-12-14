@@ -4,14 +4,15 @@ namespace Lib\Cfdi33;
 
 
 use Lib\Cfdi33\TimbreFiscalDigital33;
+use Lib\Cfdi33\Pagos33;
 
 class Complemento33
 {
 
-    public $TimbreFiscalDigital;
+    public ?TimbreFiscalDigital33 $TimbreFiscalDigital;
     public $Nomina;
     public $ComercioExterior;
-    public $Pagos;
+    public ?Pagos33 $Pagos;
     public $ImpuestosLocales;
 
 

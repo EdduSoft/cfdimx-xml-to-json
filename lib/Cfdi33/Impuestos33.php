@@ -14,8 +14,8 @@ class Impuestos33
 
     public $TotalImpuestosRetenidos;
     public $TotalImpuestosTrasladados;
-    public $Retenciones;
-    public $Traslados;
+    public ?array $Retenciones;
+    public ?array $Traslados;
 
     public static function getImpuestos($xml, $flag)
     {

@@ -13,7 +13,7 @@ class Xml33
      * @param Comprobante33 $comprobante
      * @return String
      */
-    public function __construct(Comprobante33 $comprobante)
+    public function __construct(Comprobante33 $comprobante, $preview = false)
     {
         try {
 
@@ -254,6 +254,20 @@ class Xml33
                 $tfd->setAttribute("SelloSAT", 'N/A');
                 $complemento->appendChild($tfd);
             }
+
+            if (empty($preview) && isset($comprobante->Complemento->TimbreFiscalDigital)) {
+                $tfdO = $comprobante->Complemento->TimbreFiscalDigital; 
+                $tfd = $xml->createElement("tfd:TimbreFiscalDigital");
+                $tfd->setAttribute("Version", $tfdO->Version?? 'N/A');
+                $tfd->setAttribute("UUID", $tfdO->UUID?? 'N/A');
+                $tfd->setAttribute("FechaTimbrado", $tfdO->FechaTimbrado?? 'N/A');
+                $tfd->setAttribute("RfcProvCertif", $tfdO->RfcProvCertif?? 'N/A');
+                $tfd->setAttribute("SelloCFD", $tfdO->SelloCFD?? 'N/A');
+                $tfd->setAttribute("NoCertificadoSAT", $tfdO->NoCertificadoSAT?? 'N/A');
+                $tfd->setAttribute("SelloSAT", $tfdO->SelloSAT?? 'N/A');
+                $complemento->appendChild($tfd);
+            }
+
 
             $root->setAttribute("Sello", $comprobante->Sello);
             #== 10.8 Certificado

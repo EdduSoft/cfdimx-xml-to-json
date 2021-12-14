@@ -19,7 +19,7 @@ class xmlToJsonTest extends TestCase
     public function testXml33ToJson()
     {
         # Normail cfdi
-        $normal = $this->getCfdi33("../../assets/33/facturacion_normal.xml");
+        $normal = $this->getCfdi33("/../assets/33/facturacion_normal.xml");
         echo json_encode($normal, JSON_PRETTY_PRINT);
         $this->assertNotNull($normal);
         $xml = new Xml33($normal);
@@ -27,7 +27,7 @@ class xmlToJsonTest extends TestCase
         echo $xml->xml;
 
         # Payment complement
-        $comp = $this->getCfdi33("../../assets/33/complemento_pago.xml");
+        $comp = $this->getCfdi33("/../assets/33/complemento_pago.xml");
         echo json_encode($comp, JSON_PRETTY_PRINT);
         $this->assertNotNull($comp);
         $xml = new Xml33($comp);
@@ -35,7 +35,7 @@ class xmlToJsonTest extends TestCase
         echo $xml->xml;
 
         # Credit note
-        $note = $this->getCfdi33("../../assets/33/nota_credito.xml");
+        $note = $this->getCfdi33("/../assets/33/nota_credito.xml");
         echo json_encode($note, JSON_PRETTY_PRINT);
         $this->assertNotNull($note);
         $xml = new Xml33($note);
@@ -43,7 +43,7 @@ class xmlToJsonTest extends TestCase
         echo $xml->xml;
 
         # Substitution
-        $sus = $this->getCfdi33("../../assets/33/sustitucion.xml");
+        $sus = $this->getCfdi33("/../assets/33/sustitucion.xml");
         echo json_encode($sus, JSON_PRETTY_PRINT);
         $this->assertNotNull($sus);
         $xml = new Xml33($sus);
@@ -62,22 +62,22 @@ class xmlToJsonTest extends TestCase
     public function testXml40ToJson()
     {
         # Normail cfdi
-        $normal = $this->getCfdi40("../../assets/33/facturacion_normal.xml");
+        $normal = $this->getCfdi40("/../assets/33/facturacion_normal.xml");
         echo json_encode($normal, JSON_PRETTY_PRINT);
         $this->assertNotNull($normal);
 
         # Payment complement
-        $comp = $this->getCfdi40("../../assets/33/complemento_pago.xml");
+        $comp = $this->getCfdi40("/../assets/33/complemento_pago.xml");
         echo json_encode($comp, JSON_PRETTY_PRINT);
         $this->assertNotNull($comp);
 
         # Credit note
-        $note = $this->getCfdi40("../../assets/33/nota_credito.xml");
+        $note = $this->getCfdi40("/../assets/33/nota_credito.xml");
         echo json_encode($note, JSON_PRETTY_PRINT);
         $this->assertNotNull($note);
 
         # Substitution
-        $sus = $this->getCfdi40("../../assets/33/sustitucion.xml");
+        $sus = $this->getCfdi40("/../assets/33/sustitucion.xml");
         echo json_encode($sus, JSON_PRETTY_PRINT);
         $this->assertNotNull($sus);
     }

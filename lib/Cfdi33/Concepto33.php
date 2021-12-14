@@ -19,7 +19,7 @@ class Concepto33
     public $ValorUnitario;
     public $Descuento;
     public $Importe;
-    public $Impuestos;
+    public ?Impuestos33 $Impuestos;
     public $CuentaPredial;
 
     public static function getConcepto($concepto)

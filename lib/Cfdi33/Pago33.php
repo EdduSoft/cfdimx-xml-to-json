@@ -3,6 +3,7 @@
 namespace Lib\Cfdi33;
 
 use Lib\Helper;
+use Lib\Cfdi33\DoctoRelacionado33;
 
 class Pago33
 {
@@ -13,7 +14,7 @@ class Pago33
 	public $RfcEmisorCtaOrd;
 	public $NomBancoOrdExt;
 	public $CtaOrdenante;
-	public $DoctoRelacionados;
+	public ?array $DoctoRelacionados;
 
 	public static function getPagos($pago)
 	{
@@ -27,7 +28,7 @@ class Pago33
 			$pag->RfcEmisorCtaOrd = Helper::getAttr('RfcEmisorCtaOrd', $pago);
 			$pag->NomBancoOrdExt = Helper::getAttr('NomBancoOrdExt', $pago);
 			$pag->CtaOrdenante = Helper::getAttr('CtaOrdenante', $pago);
-			$pag->DoctoRelacionados = Helper::getAttr('DoctoRelacionados', $pago);
+			$pag->DoctoRelacionados = DoctoRelacionado33::getDoctos($pago);
 
 			return $pag;
 		} catch (\Exception $e) {

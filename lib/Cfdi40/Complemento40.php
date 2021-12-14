@@ -13,10 +13,10 @@ use Lib\Cfdi40\ImpuestosLocales40;
 class Complemento40
 {
 
-    public $TimbreFiscalDigital;
+    public ?TimbreFiscalDigital40 $TimbreFiscalDigital;
     public $Nomina;
     public $ComercioExterior;
-    public $Pagos;
+    public ?Pagos40 $Pagos;
     public $ImpuestosLocales;
 
 

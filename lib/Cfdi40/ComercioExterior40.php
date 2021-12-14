@@ -13,9 +13,8 @@ class ComercioExterior40
     public $Estado;
     public $Pais;
     public $CodigoPostal;
-    
-    public function __construct(){
-        
+
+    public function __construct()
+    {
     }
-    
 }
