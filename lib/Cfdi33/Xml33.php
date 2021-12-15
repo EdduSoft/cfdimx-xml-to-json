@@ -4,6 +4,7 @@ namespace Lib\Cfdi33;
 
 class Xml33
 {
+    public $xmlObject = null;
     public $xml = null;
     public $cadena_original;
 
@@ -117,7 +118,7 @@ class Xml33
                         "Descripcion" => $this->utf8toiso8859($con->Descripcion),
                         "ValorUnitario" => number_format($con->ValorUnitario, 2, '.', ''),
                         "Importe" => number_format($con->Importe, 2, '.', ''),
-                        "Descuento" => !empty($con->Descuento) ?? number_format($con->Descuento, 2, '.', '')
+                        "Descuento" => !empty($con->Descuento) ? number_format($con->Descuento, 2, '.', '') : "0.00"
                     )
                 );
 
@@ -275,10 +276,26 @@ class Xml33
 
 
             #=== 10.12 Se guarda el archivo .XML antes de ser timbrado =======================
+            $this->xmlObject = $xml;
             $this->xml = $xml->saveXML();
         } catch (\Exception $e) {
             $this->xml = null;
         }
+    }
+
+    /**
+     * Assign the "Sello" and generate the XML String again
+     *
+     * @param [type] $sello
+     * @return void
+     */
+    public function setSello($sello) : void
+    {
+        $comp = $this->xmlObject->getElementsByTagName('cfdi:Comprobante');
+        if (!empty($comp)) {
+            $comp[0]->setAttribute("Sello", $sello);
+        }
+        $this->xml = $this->xmlObject->saveXML();
     }
 
     /**
