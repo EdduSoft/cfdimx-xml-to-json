@@ -14,7 +14,7 @@ class Xml33
      * @param Comprobante33 $comprobante
      * @return String
      */
-    public function __construct(Comprobante33 $comprobante, $preview = false)
+    public function __construct(Comprobante33 $comprobante, $preview = false, $keyPemPath = '')
     {
         try {
 
@@ -240,6 +240,8 @@ class Xml33
                 );
             }
 
+            $this->cadena_original .= "|";
+
             #== 10.6 Complemento
             $complemento = $xml->createElement("cfdi:Complemento");
             $complemento = $root->appendChild($complemento);
@@ -270,7 +272,11 @@ class Xml33
             }
 
 
-            $root->setAttribute("Sello", $comprobante->Sello);
+            $sello = !empty($keyPemPath)
+                ? $this->sello($keyPemPath)
+                : $comprobante->Sello;
+
+            $root->setAttribute("Sello", $sello);
             #== 10.8 Certificado
             $root->setAttribute("Certificado", $comprobante->Certificado);
 
@@ -280,6 +286,24 @@ class Xml33
             $this->xml = $xml->saveXML();
         } catch (\Exception $e) {
             $this->xml = null;
+        }
+    }
+
+    /**
+     * Calculate sello
+     *
+     * @param [String] $filePath
+     * @return String|null
+     */
+    public function sello($filePath)
+    {
+        try {
+            $pkeyid = openssl_get_privatekey(file_get_contents($filePath));
+            openssl_sign($this->cadena_original, $crypttext, $pkeyid, OPENSSL_ALGO_SHA256);
+            openssl_free_key($pkeyid);
+            return base64_encode($crypttext);
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 
