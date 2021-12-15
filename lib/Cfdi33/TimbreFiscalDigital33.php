@@ -6,6 +6,8 @@ use Lib\Helper;
 
 class TimbreFiscalDigital33
 {
+    const TFD_11_TEMPLATE = '||**Version**|**UUID**|**FechaTimbrado**|**RfcProvCertif**|**SelloCFD**|**NoCertificadoSAT**|||';
+
     public $Version;
     public $UUID;
     public $FechaTimbrado;
@@ -13,6 +15,7 @@ class TimbreFiscalDigital33
     public $SelloCFD;
     public $NoCertificadoSAT;
     public $SelloSAT;
+    public string $CadenaOriginalTfd;
 
 
 
@@ -29,6 +32,7 @@ class TimbreFiscalDigital33
                 $this->SelloCFD = Helper::getAttr('SelloCFD', $complemento);
                 $this->NoCertificadoSAT = Helper::getAttr('NoCertificadoSAT', $complemento);
                 $this->SelloSAT = Helper::getAttr('SelloSAT', $complemento);
+                $this->CadenaOriginalTfd = self::generateTfdOriginalString($this) ?? '';
                 return $this;
             } else {
                 return null;
@@ -46,5 +50,22 @@ class TimbreFiscalDigital33
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * Generates tfc original string from xml path
+     *
+     * @param TimbreFiscalDigital33 $timbreFiscalDigital33
+     * @return string
+     */
+    public static function generateTfdOriginalString(TimbreFiscalDigital33 $tfd)
+    {
+        $tfdString = self::TFD_11_TEMPLATE;
+        $tfdString = str_replace('**Version**', $tfd->Version, $tfdString);
+        $tfdString = str_replace('**UUID**', $tfd->UUID, $tfdString);
+        $tfdString = str_replace('**FechaTimbrado**', $tfd->FechaTimbrado, $tfdString);
+        $tfdString = str_replace('**RfcProvCertif**', $tfd->RfcProvCertif, $tfdString);
+        $tfdString = str_replace('**SelloCFD**', $tfd->SelloCFD, $tfdString);
+        return str_replace('**NoCertificadoSAT**|', $tfd->NoCertificadoSAT, $tfdString);
     }
 }

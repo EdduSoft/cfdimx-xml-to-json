@@ -44,7 +44,6 @@ class Comprobante33
     public ?Impuestos33 $Impuestos;
     //Lib\Cfdi33\Complemento33
     public ?Complemento33 $Complemento;
-    public string $CadenaOriginalTfd;
     public string $VerificacionUrl;
 
 
@@ -81,7 +80,6 @@ class Comprobante33
                 $obj->Impuestos = $obj->TipoDeComprobante == 'P' ? null : Impuestos33::getImpuestos($xml, 1);
                 $obj->Complemento = Complemento33::getComplemento($xml);
                 $obj->Relacionados = Relacionados33::getRelacionados($xml);
-                $obj->CadenaOriginalTfd = Cfdi33::generateTfdOriginalString($obj->Complemento->TimbreFiscalDigital) ?? '';
                 $obj->VerificacionUrl = Cfdi33::generateVerificationUrl($obj) ?? '';
             }
             return $obj;

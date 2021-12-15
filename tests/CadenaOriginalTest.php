@@ -22,7 +22,11 @@ class CadenaOriginalTest extends TestCase
     {
         echo "\n *------ Testing tfd original string ------* \n";
         foreach (self::FILES_TO_TEST as $file) {
-            $result = Cfdi33::xmlToJson(file_get_contents($file))->CadenaOriginalTfd;
+            $result = Cfdi33::xmlToJson(file_get_contents($file))
+                ->Complemento
+                ->TimbreFiscalDigital
+                ->CadenaOriginalTfd;
+            
             echo "------ File: $file ------ \n";
             echo json_encode($result, JSON_PRETTY_PRINT) . "\n";
             $this->assertNotNull($result);    

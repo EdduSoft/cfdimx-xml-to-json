@@ -7,7 +7,6 @@ use Lib\Cfdi33\Comprobante33;
 class Cfdi33
 {
     const VERIFY_CFDI_URL = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx';
-    const TFD_11_TEMPLATE = '||**Version**|**UUID**|**FechaTimbrado**|**RfcProvCertif**|**SelloCFD**|**NoCertificadoSAT**|||';
 
     /**
      * Return new empty Comprobante33 object
@@ -38,23 +37,6 @@ class Cfdi33
         } catch (\Exception $e) {
             return null;
         }
-    }
-
-    /**
-     * Generates tfc original string from xml path
-     *
-     * @param TimbreFiscalDigital33 $timbreFiscalDigital33
-     * @return string
-     */
-    public static function generateTfdOriginalString(TimbreFiscalDigital33 $tfd)
-    {
-        $tfdString = self::TFD_11_TEMPLATE;
-        $tfdString = str_replace('**Version**', $tfd->Version, $tfdString);
-        $tfdString = str_replace('**UUID**', $tfd->UUID, $tfdString);
-        $tfdString = str_replace('**FechaTimbrado**', $tfd->FechaTimbrado, $tfdString);
-        $tfdString = str_replace('**RfcProvCertif**', $tfd->RfcProvCertif, $tfdString);
-        $tfdString = str_replace('**SelloCFD**', $tfd->SelloCFD, $tfdString);
-        return str_replace('**NoCertificadoSAT**|', $tfd->NoCertificadoSAT, $tfdString);
     }
 
     /**
