@@ -42,42 +42,34 @@ class Cfdi33
 
     /**
      * Generates tfc original string from xml path
-     * 
-     * @param $xmlFile
+     *
+     * @param TimbreFiscalDigital33 $timbreFiscalDigital33
      * @return string
      */
-    public static function generateTfdOriginalString($xmlFile)
+    public static function generateTfdOriginalString(TimbreFiscalDigital33 $tfd)
     {
-        $cfdiData = self::xmlToJson(file_get_contents($xmlFile));
-        $tfd = $cfdiData->Complemento->TimbreFiscalDigital ?? false;
-
-        if (!$tfd) return '';
-
         $tfdString = self::TFD_11_TEMPLATE;
         $tfdString = str_replace('**Version**', $tfd->Version, $tfdString);
         $tfdString = str_replace('**UUID**', $tfd->UUID, $tfdString);
         $tfdString = str_replace('**FechaTimbrado**', $tfd->FechaTimbrado, $tfdString);
         $tfdString = str_replace('**RfcProvCertif**', $tfd->RfcProvCertif, $tfdString);
         $tfdString = str_replace('**SelloCFD**', $tfd->SelloCFD, $tfdString);
-        $tfdString = str_replace('**NoCertificadoSAT**|', $tfd->NoCertificadoSAT, $tfdString);
-
-        return $tfdString;
+        return str_replace('**NoCertificadoSAT**|', $tfd->NoCertificadoSAT, $tfdString);
     }
 
     /**
      * Returns verification url given xml path
-     * 
-     * @param $xmlFile
+     *
+     * @param \Lib\Cfdi33\Comprobante33 $cfdi
      * @return string
      */
-    public static function generateVerificationUrl($xmlFile)
+    public static function generateVerificationUrl(Comprobante33 $cfdi)
     {
-        $cfdiData = self::xmlToJson(file_get_contents($xmlFile));
         $verifyUrl = self::VERIFY_CFDI_URL;
-        $verifyUrl = $verifyUrl . '?id=' . $cfdiData->Complemento->TimbreFiscalDigital->UUID;
-        $verifyUrl = $verifyUrl . '&re=' . $cfdiData->Emisor->Rfc;
-        $verifyUrl = $verifyUrl . '&rr=' . $cfdiData->Receptor->Rfc;
-        $verifyUrl = $verifyUrl . '&tt=' . $cfdiData->Total;
-        return $verifyUrl . '&fe=' . substr($cfdiData->Complemento->TimbreFiscalDigital->SelloCFD, -8);
+        $verifyUrl = $verifyUrl . '?id=' . $cfdi->Complemento->TimbreFiscalDigital->UUID;
+        $verifyUrl = $verifyUrl . '&re=' . $cfdi->Emisor->Rfc;
+        $verifyUrl = $verifyUrl . '&rr=' . $cfdi->Receptor->Rfc;
+        $verifyUrl = $verifyUrl . '&tt=' . $cfdi->Total;
+        return $verifyUrl . '&fe=' . substr($cfdi->Complemento->TimbreFiscalDigital->SelloCFD, -8);
     }
 }
