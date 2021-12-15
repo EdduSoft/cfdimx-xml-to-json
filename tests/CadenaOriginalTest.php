@@ -22,7 +22,7 @@ class CadenaOriginalTest extends TestCase
     {
         echo "\n *------ Testing tfd original string ------* \n";
         foreach (self::FILES_TO_TEST as $file) {
-            $result = Cfdi33::generateTfdOriginalString($file);
+            $result = Cfdi33::xmlToJson(file_get_contents($file))->CadenaOriginalTfd;
             echo "------ File: $file ------ \n";
             echo json_encode($result, JSON_PRETTY_PRINT) . "\n";
             $this->assertNotNull($result);    
@@ -33,7 +33,7 @@ class CadenaOriginalTest extends TestCase
     {
         echo "\n *------ Testing verify URL ------* \n";
         foreach (self::FILES_TO_TEST as $file) {
-            $result = Cfdi33::generateVerificationUrl($file);
+            $result = Cfdi33::xmlToJson(file_get_contents($file))->VerificacionUrl;
             echo "------ File: $file ------ \n";
             echo json_encode($result, JSON_PRETTY_PRINT) . "\n";
             $this->assertNotNull($result);
