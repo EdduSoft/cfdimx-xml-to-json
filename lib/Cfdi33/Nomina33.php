@@ -16,8 +16,9 @@ class Nomina33
     public string $TotalDeducciones = '';
     public string $TotalOtrosPagos = '';
     
-    public NominaEmisor33 $NominaEmisor33;
+    public NominaPercepcion33 $NominaEmisor33;
     public NominaReceptor33 $NominaReceptor33;
+    public NominaPercepciones33 $NominaPercepciones33; 
 
     public function __construct($comp)
     {
@@ -41,10 +42,13 @@ class Nomina33
             }
             
             // Emisor node
-            $this->NominaEmisor33 = new NominaEmisor33($nomina);
+            $this->NominaEmisor33 = new NominaPercepcion33($nomina);
             
             // Receptor node
             $this->NominaReceptor33 = new NominaReceptor33($nomina);
+            
+            // Percepciones node
+            $this->NominaPercepciones33 = new NominaPercepciones33($nomina);
             
             return $nomina;
         } catch (\Exception $e) {
