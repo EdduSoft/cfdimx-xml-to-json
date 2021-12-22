@@ -20,6 +20,8 @@ class Nomina33
     public NominaReceptor33 $NominaReceptor33;
     public NominaPercepciones33 $NominaPercepciones33;
     public NominaDeducciones33 $NominaDeducciones33;
+    
+    public array $NominaOtrosPagos = [];
 
     public function __construct($comp)
     {
@@ -53,6 +55,15 @@ class Nomina33
             
             // Deducciones node
             $this->NominaDeducciones33 = new NominaDeducciones33($nomina);
+            
+            // Otros pagos node
+            $nominaOtrosPagos = $nomina->getElementsByTagName('OtroPago');
+            foreach ($nominaOtrosPagos as $nominaOtroPago) {
+                array_push(
+                    $this->NominaOtrosPagos,
+                    new NominaOtroPago($nominaOtroPago)
+                );
+            }
             
             return $nomina;
         } catch (\Exception $e) {
