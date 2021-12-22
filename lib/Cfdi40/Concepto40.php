@@ -21,6 +21,20 @@ class Concepto40
     public $Importe;
     public $Impuestos;
     public $CuentaPredial;
+    public $ObjetoImp;
+    // TODO:
+    // Create class ACuentaTercetos40
+    public $AcuentaTerceros;
+    // Properties
+    // RfcACuentaTerceros
+    // NombreACuentaTerceros
+    // RegimenFiscalACuentaTerceros
+    // DomicilioFiscalACuentaTerceros
+    // TODO:
+    // Create class InformacionAduanera40
+    public $InformacionAduanera;
+    // Properties
+    // NumeroPedimento
 
     public static function getConcepto($concepto)
     {
@@ -40,6 +54,7 @@ class Concepto40
             $con->Descuento = Helper::getAttr('Descuento', $concepto);
             $con->Impuestos = $con->Impuestos->getImpuestos($concepto, 0);
             $con->CuentaPredial = Helper::getAttr('cve_catastral', $concepto);
+            $con->ObjetoImp = Helper::getAttr('ObjetoImp', $concepto);
 
             return $con;
         } catch (\Exception $e) {
