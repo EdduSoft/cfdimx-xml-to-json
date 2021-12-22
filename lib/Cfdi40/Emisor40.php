@@ -10,6 +10,7 @@ class Emisor40
     public $Nombre;
     public $RegimenFiscal;
     public $Curp;
+    public $FacAtrAdquirente;
 
     public static function getEmisor($xml)
     {

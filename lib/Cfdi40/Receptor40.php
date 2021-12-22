@@ -13,6 +13,8 @@ class Receptor40
     public $Domicilio;
     public $DomicilioFiscalReceptor;
     public $RegimenFiscalReceptor;
+    public $NumRegIdTrib;
+    public $ResidenciaFiscal;
 
 
     public static function getReceptor($xml)
@@ -26,6 +28,8 @@ class Receptor40
             $obj->Curp = Helper::getAttr('Curp', $receptor);
             $obj->RegimenFiscalReceptor = Helper::getAttr('RegimenFiscalReceptor', $receptor);
             $obj->DomicilioFiscalReceptor = Helper::getAttr('DomicilioFiscalReceptor', $receptor);
+            $obj->NumRegIdTrib = Helper::getAttr('NumRegIdTrib', $receptor);
+            $obj->ResidenciaFiscal = Helper::getAttr('ResidenciaFiscal', $receptor);
 
             return $obj;
         } else {

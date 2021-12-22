@@ -8,7 +8,7 @@ use Lib\Cfdi40\Concepto40;
 
 class Conceptos40
 {
-    public $Conceptos;
+    public $Conceptos = [];
 
     public static function getConceptos($xml)
     {
@@ -20,7 +20,7 @@ class Conceptos40
             foreach ($concep as $concepto) {
                 array_push($obj->Conceptos, Concepto40::getConcepto($concepto));
             }
-            return $obj;
+            return $obj->Conceptos;
         } else {
             return null;
         }
