@@ -10,7 +10,7 @@ class Complemento33
 {
 
     public ?TimbreFiscalDigital33 $TimbreFiscalDigital;
-    public Nomina33 $Nomina;
+    public ?Nomina33 $Nomina;
     public $ComercioExterior;
     public ?Pagos33 $Pagos;
     public $ImpuestosLocales;

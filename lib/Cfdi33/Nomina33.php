@@ -40,6 +40,9 @@ class Nomina33
 
             // Nomina node
             $nomina = $this->getNode($comp, 'Nomina');
+            
+            if (!$nomina) return null;
+            
             foreach ($payrollAttributes as $attribute) {
                 $this->$attribute = Helper::getAttr($attribute, $nomina);
             }
