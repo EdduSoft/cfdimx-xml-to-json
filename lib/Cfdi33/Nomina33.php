@@ -61,7 +61,7 @@ class Nomina33
             foreach ($nominaOtrosPagos as $nominaOtroPago) {
                 array_push(
                     $this->NominaOtrosPagos,
-                    new NominaOtroPago($nominaOtroPago)
+                    new NominaOtroPago33($nominaOtroPago)
                 );
             }
             
