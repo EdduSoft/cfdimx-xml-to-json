@@ -16,12 +16,12 @@ class Nomina33
     public string $TotalDeducciones = '';
     public string $TotalOtrosPagos = '';
     
-    public NominaEmisor33 $NominaEmisor33;
-    public NominaReceptor33 $NominaReceptor33;
-    public NominaPercepciones33 $NominaPercepciones33;
-    public NominaDeducciones33 $NominaDeducciones33;
+    public NominaEmisor33 $Emisor;
+    public NominaReceptor33 $Receptor;
+    public NominaPercepciones33 $Percepciones;
+    public NominaDeducciones33 $Deducciones;
     
-    public array $NominaOtrosPagos = [];
+    public array $OtrosPagos = [];
 
     public function __construct($comp)
     {
@@ -48,22 +48,22 @@ class Nomina33
             }
             
             // Emisor node
-            $this->NominaEmisor33 = new NominaEmisor33($nomina);
+            $this->Emisor = new NominaEmisor33($nomina);
             
             // Receptor node
-            $this->NominaReceptor33 = new NominaReceptor33($nomina);
+            $this->Receptor = new NominaReceptor33($nomina);
             
             // Percepciones node
-            $this->NominaPercepciones33 = new NominaPercepciones33($nomina);
+            $this->Percepciones = new NominaPercepciones33($nomina);
             
             // Deducciones node
-            $this->NominaDeducciones33 = new NominaDeducciones33($nomina);
+            $this->Deducciones = new NominaDeducciones33($nomina);
             
             // Otros pagos node
             $nominaOtrosPagos = $nomina->getElementsByTagName('OtroPago');
             foreach ($nominaOtrosPagos as $nominaOtroPago) {
                 array_push(
-                    $this->NominaOtrosPagos,
+                    $this->OtrosPagos,
                     new NominaOtroPago33($nominaOtroPago)
                 );
             }

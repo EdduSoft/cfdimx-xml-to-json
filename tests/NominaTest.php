@@ -21,11 +21,11 @@ class NominaTest extends TestCase {
             'TotalPercepciones',
             'TotalDeducciones',
             'TotalOtrosPagos',
-            'NominaEmisor33',
-            'NominaReceptor33',
-            'NominaPercepciones33',
-            'NominaDeducciones33',
-            'NominaOtrosPagos'
+            'Emisor',
+            'Receptor',
+            'Percepciones',
+            'Deducciones',
+            'OtrosPagos'
         ];
         
         foreach ($payrollAttributes as $attribute) {
