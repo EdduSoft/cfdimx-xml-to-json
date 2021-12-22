@@ -12,19 +12,21 @@ class Pagos33
     public $Version;
 
 
-    public function __construct($comp)
+    public function __construct($comp = null)
     {
         try {
-            $pago = $this->getNode($comp);
-            if ($pago != null) {
-                $this->Version = Helper::getAttr('Version', $pago);
-                $xmlPagos = $this->getPagos($comp);
-                foreach ($xmlPagos as $pag) {
-                    array_push($this->Pago, Pago33::getPagos($pag));
+            if (!empty($comp)) {
+                $pago = $this->getNode($comp);
+                if ($pago != null) {
+                    $this->Version = Helper::getAttr('Version', $pago);
+                    $xmlPagos = $this->getPagos($comp);
+                    foreach ($xmlPagos as $pag) {
+                        array_push($this->Pago, Pago33::getPagos($pag));
+                    }
+                    return $this;
+                } else {
+                    return null;
                 }
-                return $this;
-            } else {
-                return null;
             }
         } catch (\Exception $e) {
             return null;

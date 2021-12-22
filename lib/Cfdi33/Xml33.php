@@ -28,13 +28,10 @@ class Xml33
 
             #== 10.2 Se crea e inserta el primer nodo donde se declaran los namespaces ======
 
+            $nameSpaces = self::getNameSpaces($comprobante);
             $this->cargaAtt(
                 $root,
-                array(
-                    "xmlns:cfdi" => "http://www.sat.gob.mx/cfd/3",
-                    "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-                    "xsi:schemaLocation" => "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd"
-                )
+                $nameSpaces
             );
 
             #== 10.3 Rutina de integración de nodos =========================================
@@ -107,19 +104,26 @@ class Xml33
                 #== 10.4.1.1 Nodo concepto
                 $concepto = $xml->createElement("cfdi:Concepto");
                 $concepto = $conceptos->appendChild($concepto);
+                $arrConceptParams = array(
+                    "ClaveProdServ" => $con->ClaveProdServ,
+                    "NoIdentificacion" => $con->NoIdentificacion,
+                    "Cantidad" => $con->Cantidad,
+                    "ClaveUnidad" => $con->ClaveUnidad,
+                    "Unidad" => $this->utf8toiso8859($con->Unidad),
+                    "Descripcion" => $this->utf8toiso8859($con->Descripcion),
+                    "ValorUnitario" => self::getValorUnitario($comprobante, $con),
+                    "Importe" => self::getImporte($comprobante, $con),
+                );
+                #== Valida si puede cargar el descuento
+                if (self::canLoadDiscount($comprobante)) {
+                    $arrConceptParams['Descuento'] = !empty($con->Descuento)
+                        ? number_format($con->Descuento, 2, '.', '')
+                        : "0.00";
+                }
+
                 $this->cargaAtt(
                     $concepto,
-                    array(
-                        "ClaveProdServ" => $con->ClaveProdServ,
-                        "NoIdentificacion" => $con->NoIdentificacion,
-                        "Cantidad" => $con->Cantidad,
-                        "ClaveUnidad" => $con->ClaveUnidad,
-                        "Unidad" => $this->utf8toiso8859($con->Unidad),
-                        "Descripcion" => $this->utf8toiso8859($con->Descripcion),
-                        "ValorUnitario" => number_format($con->ValorUnitario, 2, '.', ''),
-                        "Importe" => number_format($con->Importe, 2, '.', ''),
-                        "Descuento" => !empty($con->Descuento) ? number_format($con->Descuento, 2, '.', '') : "0.00"
-                    )
+                    $arrConceptParams
                 );
 
                 #== 10.4.1.2 Nodo Impuestos
@@ -185,62 +189,62 @@ class Xml33
             }
 
 
-            #== 10.5 Impuestos
-            $Impuestos = $xml->createElement("cfdi:Impuestos");
-            $Impuestos = $root->appendChild($Impuestos);
+            if (self::canLoadTaxesResume($comprobante)) {
+                #== 10.5 Impuestos
+                $Impuestos = $xml->createElement("cfdi:Impuestos");
+                $Impuestos = $root->appendChild($Impuestos);
 
-            if (count($comprobante->Impuestos->Retenciones ?? []) > 0) {
-                $Retenciones = $xml->createElement("cfdi:Retenciones");
-                $Retenciones = $Impuestos->appendChild($Retenciones);
+                if (count($comprobante->Impuestos->Retenciones ?? []) > 0) {
+                    $Retenciones = $xml->createElement("cfdi:Retenciones");
+                    $Retenciones = $Impuestos->appendChild($Retenciones);
 
-                foreach ($comprobante->Impuestos->Retenciones as $ret) {
-                    $Retencion = $xml->createElement("cfdi:Retencion");
-                    $Retencion = $Retenciones->appendChild($Retencion);
+                    foreach ($comprobante->Impuestos->Retenciones as $ret) {
+                        $Retencion = $xml->createElement("cfdi:Retencion");
+                        $Retencion = $Retenciones->appendChild($Retencion);
+                        $this->cargaAtt(
+                            $Retencion,
+                            array(
+                                "Impuesto" => $ret->Impuesto,
+                                "Importe" => number_format($ret->Importe, 2, '.', '')
+                            )
+                        );
+                    }
+
                     $this->cargaAtt(
-                        $Retencion,
+                        $Impuestos,
                         array(
-                            "Impuesto" => $ret->Impuesto,
-                            "Importe" => number_format($ret->Importe, 2, '.', '')
+                            "TotalImpuestosRetenidos" => number_format($comprobante->Impuestos->TotalImpuestosRetenidos, 2, '.', '')
                         )
                     );
                 }
 
-                $this->cargaAtt(
-                    $Impuestos,
-                    array(
-                        "TotalImpuestosRetenidos" => number_format($comprobante->Impuestos->TotalImpuestosRetenidos, 2, '.', '')
-                    )
-                );
-            }
+                if (count($comprobante->Impuestos->Traslados ?? []) > 0) {
+                    $Traslados = $xml->createElement("cfdi:Traslados");
+                    $Traslados = $Impuestos->appendChild($Traslados);
 
-            if (count($comprobante->Impuestos->Traslados ?? []) > 0) {
-                $Traslados = $xml->createElement("cfdi:Traslados");
-                $Traslados = $Impuestos->appendChild($Traslados);
+                    foreach ($comprobante->Impuestos->Traslados as $tras) {
+                        $Traslado = $xml->createElement("cfdi:Traslado");
+                        $Traslado = $Traslados->appendChild($Traslado);
 
-                foreach ($comprobante->Impuestos->Traslados as $tras) {
-                    $Traslado = $xml->createElement("cfdi:Traslado");
-                    $Traslado = $Traslados->appendChild($Traslado);
+                        $this->cargaAtt(
+                            $Traslado,
+                            array(
+                                "Impuesto" => $tras->Impuesto,
+                                "TipoFactor" => $tras->TipoFactor,
+                                "TasaOCuota" => $tras->TasaOCuota,
+                                "Importe" => number_format($tras->Importe, 2, '.', '')
+                            )
+                        );
+                    }
 
                     $this->cargaAtt(
-                        $Traslado,
+                        $Impuestos,
                         array(
-                            "Impuesto" => $tras->Impuesto,
-                            "TipoFactor" => $tras->TipoFactor,
-                            "TasaOCuota" => $tras->TasaOCuota,
-                            "Importe" => number_format($tras->Importe, 2, '.', '')
+                            "TotalImpuestosTrasladados" => number_format($comprobante->Impuestos->TotalImpuestosTrasladados, 2, '.', '')
                         )
                     );
                 }
-
-                $this->cargaAtt(
-                    $Impuestos,
-                    array(
-                        "TotalImpuestosTrasladados" => number_format($comprobante->Impuestos->TotalImpuestosTrasladados, 2, '.', '')
-                    )
-                );
             }
-
-            $this->cadena_original .= "|";
 
             #== 10.6 Complemento
             $complemento = $xml->createElement("cfdi:Complemento");
@@ -271,6 +275,46 @@ class Xml33
                 $complemento->appendChild($tfd);
             }
 
+            #== Complemento de pagos
+            if (isset($comprobante->Complemento->Pagos->Pago)) {
+                $pagosComplemento = $xml->createElement("pago10:Pagos");
+                $pagosComplemento = $complemento->appendChild($pagosComplemento);
+                $this->cargaAtt($pagosComplemento, array(
+                    'Version' => $comprobante->Complemento->Pagos->Version
+                ));
+                foreach ($comprobante->Complemento->Pagos->Pago as $pago) {
+                    #== 10.4.1.1 Nodo concepto
+                    $pagox = $xml->createElement("pago10:Pago");
+                    $pagox = $pagosComplemento->appendChild($pagox);
+                    $this->cargaAtt($pagox, array(
+                        'FechaPago' => $pago->FechaPago,
+                        'FormaDePagoP' => $pago->FormaDePagoP,
+                        'MonedaP' => $pago->MonedaP,
+                        'Monto' => $pago->Monto,
+                        'RfcEmisorCtaOrd' => $pago->RfcEmisorCtaOrd,
+                        'NomBancoOrdExt' => $pago->NomBancoOrdExt,
+                        'CtaOrdenante' => $pago->CtaOrdenante
+                    ));
+
+                    if (count($pago->DoctoRelacionados) > 0) {
+                        foreach ($pago->DoctoRelacionados as $docto) {
+                            $pagosDocto = $xml->createElement("pago10:DoctoRelacionado");
+                            $pagosDocto = $pagox->appendChild($pagosDocto);
+                            $this->cargaAtt($pagosDocto, array(
+                                'IdDocumento' => $docto->IdDocumento,
+                                'MonedaDR' => $docto->MonedaDR,
+                                'MetodoDePagoDR' => $docto->MetodoDePagoDR,
+                                'NumParcialidad' => $docto->NumParcialidad,
+                                'ImpSaldoAnt' => $docto->ImpSaldoAnt,
+                                'ImpPagado' => $docto->ImpPagado,
+                                'ImpSaldoInsoluto' => $docto->ImpSaldoInsoluto
+                            ));
+                        }
+                    }
+                }
+            }
+
+            $this->cadena_original .= "|";
 
             $sello = !empty($keyPemPath)
                 ? $this->sello($keyPemPath)
@@ -287,6 +331,87 @@ class Xml33
         } catch (\Exception $e) {
             $this->xml = null;
         }
+    }
+
+    /**
+     * Validates whether or not you can load the discount
+     * according to the type of cfdi
+     *
+     * @param Comprobante33 $comp
+     * @return boolean
+     */
+    public static function canLoadDiscount(Comprobante33 $comp)
+    {
+        $arr = ['T', 'P'];
+        $response = true;
+        if (in_array($comp->TipoDeComprobante, $arr)) {
+            $response = false;
+        }
+        return $response;
+    }
+
+    /**
+     * Validates whether or not you can load taxes resume
+     *
+     * @param Comprobante33 $comp
+     * @return boolean
+     */
+    public static function canLoadTaxesResume(Comprobante33 $comp)
+    {
+        $arr = ['T', 'P', 'N'];
+        $response = true;
+        if (in_array($comp->TipoDeComprobante, $arr)) {
+            $response = false;
+        }
+        return $response;
+    }
+
+    /**
+     * Get valor unitario
+     *
+     * @param Comprobante33 $comp
+     * @param Concepto33 $con
+     * @return String
+     */
+    public static function getValorUnitario(Comprobante33 $comp, Concepto33 $con) : string
+    {
+        $valorUnitario = number_format($con->ValorUnitario, 2, '.', '');
+        $type = $comp->TipoDeComprobante;
+
+        switch ($type) {
+            case 'P':
+                $valorUnitario = "0";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $valorUnitario;
+    }
+
+    /**
+     * Get ValorUnitario
+     *
+     * @param Comprobante33 $comp
+     * @param Concepto33 $con
+     * @return String
+     */
+    public static function getImporte(Comprobante33 $comp, Concepto33 $con) : string
+    {
+        $importe = number_format($con->Importe, 2, '.', '');
+        $type = $comp->TipoDeComprobante;
+
+        switch ($type) {
+            case 'P':
+                $importe = "0";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $importe;
     }
 
     /**
@@ -320,6 +445,40 @@ class Xml33
             $comp[0]->setAttribute("Sello", $sello);
         }
         $this->xml = $this->xmlObject->saveXML();
+    }
+
+    /**
+     * Get XML namespaces according to the type of cfdi
+     *
+     * @param Comprobante33 $comp
+     * @return Array
+     */
+    public static function getNameSpaces(Comprobante33 $comp) : Array
+    {
+        $nameSpaces = [
+            "xmlns:cfdi" => "http://www.sat.gob.mx/cfd/3",
+            "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance"
+        ];
+
+        $type = $comp->TipoDeComprobante;
+
+        switch ($type) {
+            case 'I':
+            case 'E':
+                $nameSpaces["xsi:schemaLocation"] =
+                    "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd";
+                break;
+            case 'P':
+                $nameSpaces["xsi:schemaLocation"] =
+                    "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd http://www.sat.gob.mx/Pagos http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos10.xsd";
+                $nameSpaces["xmlns:pago10"] = "http://www.sat.gob.mx/Pagos";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $nameSpaces;
     }
 
     /**
