@@ -12,7 +12,7 @@ class NominaPercepcion33
     public string $ImporteGravado = '';
     public string $ImporteExento = '';
 
-    public static function getPercepcion($percepcion)
+    public function __construct($percepcion)
     {
         try {
             $attributes = [
@@ -23,12 +23,11 @@ class NominaPercepcion33
                 'ImporteExento',
             ];
             
-            $nominaPercepcion = new NominaPercepcion33();
             foreach ($attributes as $attribute) {
-                $nominaPercepcion->$attribute = Helper::getAttr($attribute, $percepcion);
+                $this->$attribute = Helper::getAttr($attribute, $percepcion);
             }
 
-            return $nominaPercepcion;
+            return $this;
         } catch (\Exception $e) {
             return null;
         }

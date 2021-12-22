@@ -9,5 +9,6 @@ class NominaTest extends TestCase {
         echo "\n *---- Payroll object test ----* \n";
         $comp = Cfdi33::xmlToJson(file_get_contents("assets/33/nomina.xml"));
         echo json_encode($comp->Complemento->Nomina);
+        $this->assertNotNull($comp->Complemento->Nomina->NominaPercepciones33->Percepciones);
     }
 }

@@ -26,11 +26,11 @@ class NominaPercepciones33
                 $this->$attribute = Helper::getAttr($attribute, $percepciones);
             }
             
-            $nominaPercepciones = $this->getNode($percepciones, 'Percepcion');
+            $nominaPercepciones = $nomina->getElementsByTagName('Percepcion');
             foreach ($nominaPercepciones as $nominaPercepcion) {
                 array_push(
                     $this->Percepciones,
-                    NominaPercepcion33::getPercepcion($nominaPercepcion)
+                    new NominaPercepcion33($nominaPercepcion)
                 );
             }
 
