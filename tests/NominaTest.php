@@ -8,8 +8,29 @@ class NominaTest extends TestCase {
     function testNominaObject() {
         echo "\n *---- Payroll object test ----* \n";
         $comp = Cfdi33::xmlToJson(file_get_contents("assets/33/nomina.xml"));
-        echo json_encode($comp->Complemento->Nomina->NominaOtrosPagos);
-        $this->assertNotNull($comp->Complemento->Nomina->NominaPercepciones33->Percepciones);
-        $this->assertNotEmpty($comp->Complemento->Nomina->NominaDeducciones33->Deducciones);
+        $nomina = $comp->Complemento->Nomina;
+        
+        // Payroll attributes
+        $payrollAttributes = [
+            'Version',
+            'TipoNomina',
+            'FechaPago',
+            'FechaInicialPago',
+            'FechaFinalPago',
+            'NumDiasPagados',
+            'TotalPercepciones',
+            'TotalDeducciones',
+            'TotalOtrosPagos',
+            'NominaEmisor33',
+            'NominaReceptor33',
+            'NominaPercepciones33',
+            'NominaDeducciones33',
+            'NominaOtrosPagos'
+        ];
+        
+        foreach ($payrollAttributes as $attribute) {
+            echo "\n -- Testing $attribute -- \n";
+            $this->assertNotNull($nomina->$attribute);
+        }
     }
 }
