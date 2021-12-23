@@ -30,7 +30,6 @@ class NominaReceptor33
                 'Curp',
                 'NumSeguridadSocial',
                 'FechaInicioRelLaboral',
-                'Antiguedad',
                 'TipoContrato',
                 'Sindicalizado',
                 'TipoJornada',
@@ -49,6 +48,8 @@ class NominaReceptor33
             foreach ($attributes as $attribute) {
                 $this->$attribute = Helper::getAttr($attribute, $receptor);
             }
+            
+            $this->Antiguedad = Helper::getAttr('Antigüedad', $receptor);
 
             return $receptor;
         } catch (\Exception $e) {
