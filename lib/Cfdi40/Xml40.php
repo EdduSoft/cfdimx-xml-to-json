@@ -7,6 +7,7 @@ class Xml40
     public $xmlObject = null;
     public $xml = null;
     public $cadena_original;
+    public $co = '';
 
     /**
      * String XML40
@@ -46,11 +47,12 @@ class Xml40
                     "NoCertificado" => $comprobante->NoCertificado,
                     "CondicionesDePago" => $comprobante->CondicionesDePago,
                     "SubTotal" => $comprobante->SubTotal,
-                    "Descuento" => $comprobante->Descuento,
+                    // "Descuento" => $comprobante->Descuento,
                     "Moneda" => $comprobante->Moneda,
                     "TipoCambio" => $comprobante->TipoCambio,
                     "Total" => $comprobante->Total,
                     "TipoDeComprobante" => $comprobante->TipoDeComprobante,
+                    "Exportacion" => "01",
                     "MetodoPago" => $comprobante->MetodoPago,
                     "LugarExpedicion" => $comprobante->LugarExpedicion
                 )
@@ -94,11 +96,11 @@ class Xml40
                 array(
                     "Rfc" => $comprobante->Receptor->Rfc,
                     "Nombre" => $this->utf8toiso8859($comprobante->Receptor->Nombre),
-                    "UsoCFDI" => $comprobante->Receptor->UsoCFDI,
                     "DomicilioFiscalReceptor" => $comprobante->Receptor->DomicilioFiscalReceptor,
-                    "RegimenFiscalReceptor" => $comprobante->Receptor->RegimenFiscalReceptor,
-                    "NumRegIdTrib" => $comprobante->Receptor->NumRegIdTrib,
                     "ResidenciaFiscal" => $comprobante->Receptor->ResidenciaFiscal,
+                    "NumRegIdTrib" => $comprobante->Receptor->NumRegIdTrib,
+                    "RegimenFiscalReceptor" => $comprobante->Receptor->RegimenFiscalReceptor,
+                    "UsoCFDI" => $comprobante->Receptor->UsoCFDI,
                 )
             );
 
@@ -119,14 +121,15 @@ class Xml40
                     "Descripcion" => $this->utf8toiso8859($con->Descripcion),
                     "ValorUnitario" => self::getValorUnitario($comprobante, $con),
                     "Importe" => self::getImporte($comprobante, $con),
-                    "ObjetoImp" => $con->ObjetoImp,
                 );
                 #== Valida si puede cargar el descuento
-                if (self::canLoadDiscount($comprobante)) {
+                /* if (self::canLoadDiscount($comprobante)) {
                     $arrConceptParams['Descuento'] = !empty($con->Descuento)
                         ? number_format($con->Descuento, 2, '.', '')
                         : "0.00";
-                }
+                } */
+
+                $arrConceptParams["ObjetoImp"] = $con->ObjetoImp;
 
                 $this->cargaAtt(
                     $concepto,
@@ -211,6 +214,7 @@ class Xml40
                         $this->cargaAtt(
                             $Retencion,
                             array(
+                                "Base" => $tras->Base,
                                 "Impuesto" => $ret->Impuesto,
                                 "Importe" => number_format($ret->Importe, 2, '.', '')
                             )
@@ -236,6 +240,7 @@ class Xml40
                         $this->cargaAtt(
                             $Traslado,
                             array(
+                                "Base" => $tras->Base,
                                 "Impuesto" => $tras->Impuesto,
                                 "TipoFactor" => $tras->TipoFactor,
                                 "TasaOCuota" => $tras->TasaOCuota,
@@ -254,10 +259,13 @@ class Xml40
             }
 
             #== 10.6 Complemento
-            $complemento = $xml->createElement("cfdi:Complemento");
-            $complemento = $root->appendChild($complemento);
+            $complemento = null;
 
             if (!empty($preview)) {
+                if (empty($complemento)) {
+                    $complemento = $xml->createElement("cfdi:Complemento");
+                    $complemento = $root->appendChild($complemento);
+                }
                 $tfd = $xml->createElement("tfd:TimbreFiscalDigital");
                 $tfd->setAttribute("Version", '1.1');
                 $tfd->setAttribute("UUID", 'test');
@@ -270,6 +278,10 @@ class Xml40
             }
 
             if (empty($preview) && isset($comprobante->Complemento->TimbreFiscalDigital)) {
+                if (empty($complemento)) {
+                    $complemento = $xml->createElement("cfdi:Complemento");
+                    $complemento = $root->appendChild($complemento);
+                }
                 $tfdO = $comprobante->Complemento->TimbreFiscalDigital; 
                 $tfd = $xml->createElement("tfd:TimbreFiscalDigital");
                 $tfd->setAttribute("Version", $tfdO->Version?? 'N/A');
@@ -284,6 +296,10 @@ class Xml40
 
             #== Complemento de pagos
             if (isset($comprobante->Complemento->Pagos->Pago)) {
+                if (empty($complemento)) {
+                    $complemento = $xml->createElement("cfdi:Complemento");
+                    $complemento = $root->appendChild($complemento);
+                }
                 $pagosComplemento = $xml->createElement("pago10:Pagos");
                 $pagosComplemento = $complemento->appendChild($pagosComplemento);
                 $this->cargaAtt($pagosComplemento, array(
@@ -323,16 +339,21 @@ class Xml40
 
             $this->cadena_original .= "|";
 
-            $sello = !empty($keyPemPath)
-                ? $this->sello($keyPemPath)
-                : $comprobante->Sello;
-
-            $root->setAttribute("Sello", $sello);
+            
             #== 10.8 Certificado
             $root->setAttribute("Certificado", $comprobante->Certificado);
 
 
             #=== 10.12 Se guarda el archivo .XML antes de ser timbrado =======================
+            $this->xmlObject = $xml;
+            $this->xml = $xml->saveXML();
+            $this->co = $this->getCadenaOriginal();
+            $this->cadena_original = $this->co;
+            #=== Se genera el sello
+            $sello = !empty($keyPemPath)
+                ? $this->sello($keyPemPath)
+                : $comprobante->Sello;
+            $root->setAttribute("Sello",  $sello);
             $this->xmlObject = $xml;
             $this->xml = $xml->saveXML();
         } catch (\Exception $e) {
@@ -439,6 +460,24 @@ class Xml40
         }
     }
 
+    public function getCadenaOriginal()
+    {
+        try {
+            $file = __DIR__ . '/../../assets/40/xslt/cadenaoriginal40.xslt';
+            $paso = new \DOMDocument;
+            $paso->loadXML((string)$this->xml);
+            $xsl = new \DOMDocument;
+            $xsl->load($file);
+            $proc = new \XSLTProcessor;
+            $proc->importStyleSheet($xsl);
+            $cadena_original = $proc->transformToXML($paso);
+            $cadena_original = str_replace(array("\r", "\n"), '', $cadena_original);
+            return $cadena_original;
+        } catch (\Throwable $e) {
+            return '';
+        }
+    }
+
     /**
      * Assign the "Sello" and generate the XML String again
      *
@@ -464,6 +503,7 @@ class Xml40
     {
         $nameSpaces = [
             "xmlns:cfdi" => "http://www.sat.gob.mx/cfd/4",
+            "xmlns:xs" => "http://www.w3.org/2001/XMLSchema",
             "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance"
         ];
 
