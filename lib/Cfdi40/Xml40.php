@@ -52,7 +52,7 @@ class Xml40
                     "TipoCambio" => $comprobante->TipoCambio,
                     "Total" => $comprobante->Total,
                     "TipoDeComprobante" => $comprobante->TipoDeComprobante,
-                    "Exportacion" => "01",
+                    "Exportacion" => $comprobante->Exportacion,
                     "MetodoPago" => $comprobante->MetodoPago,
                     "LugarExpedicion" => $comprobante->LugarExpedicion
                 )

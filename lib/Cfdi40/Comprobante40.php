@@ -33,6 +33,7 @@ class Comprobante40
     public  $Descuento;
     public  $TipoCambio;
     public  $LugarExpedicion;
+    public  $Exportacion;
     //Lib\Cfdi40\Relacionado40
     public $Relacionados;
     //Lib\Cfdi40\Emisor40
@@ -73,6 +74,7 @@ class Comprobante40
                 $obj->Descuento = Helper::getAttr('Descuento',  $comprobante[0]) == "" ? 0 : Helper::getAttr('Descuento',  $comprobante[0]);
                 $obj->TipoCambio = Helper::getAttr('TipoCambio',  $comprobante[0]);
                 $obj->LugarExpedicion = Helper::getAttr('LugarExpedicion',  $comprobante[0]);
+                $obj->Exportacion = Helper::getAttr('Exportacion',  $comprobante[0]);
 
                 $obj->Emisor = Emisor40::getEmisor($xml);
                 $obj->Receptor = Receptor40::getReceptor($xml);
