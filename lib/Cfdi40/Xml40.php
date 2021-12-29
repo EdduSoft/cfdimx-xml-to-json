@@ -214,7 +214,7 @@ class Xml40
                         $this->cargaAtt(
                             $Retencion,
                             array(
-                                "Base" => $tras->Base,
+                                "Base" => $ret->Base,
                                 "Impuesto" => $ret->Impuesto,
                                 "Importe" => number_format($ret->Importe, 2, '.', '')
                             )
@@ -357,6 +357,7 @@ class Xml40
             $this->xmlObject = $xml;
             $this->xml = $xml->saveXML();
         } catch (\Exception $e) {
+            echo $e->getMessage();
             $this->xml = null;
         }
     }
