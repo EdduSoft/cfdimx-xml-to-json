@@ -47,11 +47,17 @@ class Cfdi33
      */
     public static function generateVerificationUrl(Comprobante33 $cfdi)
     {
-        $verifyUrl = self::VERIFY_CFDI_URL;
-        $verifyUrl = $verifyUrl . '?id=' . $cfdi->Complemento->TimbreFiscalDigital->UUID;
-        $verifyUrl = $verifyUrl . '&re=' . $cfdi->Emisor->Rfc;
-        $verifyUrl = $verifyUrl . '&rr=' . $cfdi->Receptor->Rfc;
-        $verifyUrl = $verifyUrl . '&tt=' . $cfdi->Total;
-        return $verifyUrl . '&fe=' . substr($cfdi->Complemento->TimbreFiscalDigital->SelloCFD, -8);
+        try {
+            $verifyUrl = self::VERIFY_CFDI_URL;
+            $verifyUrl = $verifyUrl . '?id=' . $cfdi->Complemento->TimbreFiscalDigital->UUID;
+            $verifyUrl = $verifyUrl . '&re=' . $cfdi->Emisor->Rfc;
+            $verifyUrl = $verifyUrl . '&rr=' . $cfdi->Receptor->Rfc;
+            $verifyUrl = $verifyUrl . '&tt=' . $cfdi->Total;
+            $verifyUrl = $verifyUrl . '&fe=' . substr($cfdi->Complemento->TimbreFiscalDigital->SelloCFD, -8);    
+        } catch (\Exception $e) {
+            $verifyUrl = '';
+        }
+        
+        return $verifyUrl;
     }
 }

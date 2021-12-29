@@ -46,7 +46,7 @@ class Comprobante40
     public ?Impuestos40 $Impuestos;
     //Lib\Cfdi40\Complemento40
     public ?Complemento40 $Complemento;
-
+    public string $VerificacionUrl;
 
 
     public function getObjectXML($xml)
@@ -83,6 +83,7 @@ class Comprobante40
                 $obj->Impuestos = $obj->TipoDeComprobante == 'P' ? null : Impuestos40::getImpuestos($xml, 1);
                 $obj->Complemento = Complemento40::getComplemento($xml);
                 $obj->Relacionados = Relacionados40::getRelacionados($xml);
+                $obj->VerificacionUrl = Cfdi40::generateVerificationUrl($obj) ?? '';
             }
             return $obj;
         } catch (\Exception $e) {
