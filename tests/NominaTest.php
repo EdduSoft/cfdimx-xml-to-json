@@ -6,10 +6,11 @@ use PHPUnit\Framework\TestCase;
 
 class NominaTest extends TestCase {
     function testNominaObject() {
-        echo "\n *---- Payroll object test ----* \n";
-        $comp = Cfdi33::xmlToJson(file_get_contents("assets/33/nomina.xml"));
-        $nomina = $comp->Complemento->Nomina;
-        
+        $payrollFiles = [
+            'assets/33/nomina.xml',
+            'assets/33/nomina2.xml'
+        ];
+
         // Payroll attributes
         $payrollAttributes = [
             'Version',
@@ -28,9 +29,19 @@ class NominaTest extends TestCase {
             'OtrosPagos'
         ];
         
-        foreach ($payrollAttributes as $attribute) {
-            echo "\n -- Testing $attribute -- \n";
-            $this->assertNotNull($nomina->$attribute);
+        echo "\n *---- Payroll object test ----* \n";
+        
+        foreach ($payrollFiles as $payrollFile) {
+
+            echo "\n *---- File: $payrollFile ----* \n";
+
+            $comp = Cfdi33::xmlToJson(file_get_contents($payrollFile));
+            $nomina = $comp->Complemento->Nomina;
+
+            foreach ($payrollAttributes as $attribute) {
+                echo "\n -- Testing $attribute -- \n";
+                $this->assertNotNull($nomina->$attribute);
+            }   
         }
     }
 }

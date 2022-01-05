@@ -17,7 +17,9 @@ class NominaEmisor33
 
             $emisor = $this->getNode($nomina, 'Emisor');
             foreach ($attributes as $attribute) {
-                $this->$attribute = Helper::getAttr($attribute, $emisor);
+                if ($emisor) {
+                    $this->$attribute = Helper::getAttr($attribute, $emisor);
+                }
             }
             
             return $emisor;
