@@ -57,6 +57,8 @@ class Xml40
                     "LugarExpedicion" => $comprobante->LugarExpedicion
                 )
             );
+            
+            // TODO: Add InformacionGlobal property
 
             #== 10.3.1 Se integran los datos relacionados
 

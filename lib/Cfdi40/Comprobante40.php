@@ -48,6 +48,7 @@ class Comprobante40
     public ?Complemento40 $Complemento;
     public string $VerificacionUrl;
 
+    // TODO: Add InformacionGlobal40 class
 
     public function getObjectXML($xml)
     {
