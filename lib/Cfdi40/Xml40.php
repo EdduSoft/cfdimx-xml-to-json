@@ -58,7 +58,12 @@ class Xml40
                 )
             );
             
-            // TODO: Add InformacionGlobal property
+            $this->cargaAtt(
+                $root,
+                array(
+                    "InformacionGlobal" => $comprobante->InformacionGlobal40
+                )
+            );
 
             #== 10.3.1 Se integran los datos relacionados
 
