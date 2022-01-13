@@ -8,7 +8,8 @@ class NominaTest extends TestCase {
     function testNominaObject() {
         $payrollFiles = [
             'assets/33/nomina.xml',
-            'assets/33/nomina2.xml'
+            'assets/33/nomina2.xml',
+            'assets/33/nomina3.xml'
         ];
 
         // Payroll attributes

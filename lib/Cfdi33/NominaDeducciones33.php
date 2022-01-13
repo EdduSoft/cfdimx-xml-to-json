@@ -20,9 +20,12 @@ class NominaDeducciones33
             ];
 
             $deducciones = $this->getNode($nomina, 'Deducciones');
-            foreach ($attributes as $attribute) {
-                $this->$attribute = Helper::getAttr($attribute, $deducciones);
+            if ($deducciones) {
+                foreach ($attributes as $attribute) {
+                    $this->$attribute = Helper::getAttr($attribute, $deducciones);
+                }    
             }
+            
 
             $nominaDeducciones = $nomina->getElementsByTagName('Deduccion');
             foreach ($nominaDeducciones as $nominaDeduccion) {
