@@ -57,11 +57,15 @@ class Xml40
                     "LugarExpedicion" => $comprobante->LugarExpedicion
                 )
             );
-            
+
+            $informacionGlobal = $xml->createElement("cfdi:InformacionGlobal");
+            $informacionGlobal = $root->appendChild($informacionGlobal);
             $this->cargaAtt(
-                $root,
+                $informacionGlobal,
                 array(
-                    "InformacionGlobal" => $comprobante->InformacionGlobal40
+                    "Año" => $comprobante->InformacionGlobal40->Anio,
+                    "Meses" => $comprobante->InformacionGlobal40->Meses,
+                    "Periodicidad" => $comprobante->InformacionGlobal40->Periodicidad,
                 )
             );
 
