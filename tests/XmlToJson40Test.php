@@ -24,6 +24,14 @@ class XmlToJson40Test extends TestCase
         $xml = new Xml40($normal, false, '');
         echo $xml->xml;
         $this->assertNotNull($xml->xml);
+
+        # Global information cfdi
+        $infoGlobal = $this->getCfdi40("/../assets/40/infoGlobal.xml");
+        echo json_encode($infoGlobal, JSON_PRETTY_PRINT);
+        $this->assertNotNull($infoGlobal);
+        $xml = new Xml40($infoGlobal, false, '');
+        echo $xml->xml;
+        $this->assertNotNull($xml->xml);
     }
 
 
