@@ -9,7 +9,7 @@ class InformacionGlobal40
     public string $Meses = '';
     public string $Periodicidad = '';
 
-    public function __construct($comprobante)
+    public static function getInformacionGlobal($comprobante)
     {
         try {
             $attributes = [
@@ -17,18 +17,18 @@ class InformacionGlobal40
                 'Periodicidad'
             ];
 
-            $informacionGlobal = $this->getNode($comprobante, 'InformacionGlobal');
-            foreach ($attributes as $attribute) {
-                if ($informacionGlobal) {
-                    $this->$attribute = Helper::getAttr($attribute, $informacionGlobal);
-                }
-            }
-
+            $infGlobal = new InformacionGlobal40();
+            $informacionGlobal = $infGlobal->getNode($comprobante, 'InformacionGlobal');
             if ($informacionGlobal) {
-                $this->Anio = Helper::getAttr('Año', $informacionGlobal);
+                foreach ($attributes as $attribute) {
+                    $infGlobal->$attribute = Helper::getAttr($attribute, $informacionGlobal);
+                }
+                
+                $infGlobal->Anio = Helper::getAttr('Año', $informacionGlobal);
+                return $infGlobal;
+            } else {
+                return null;
             }
-            
-            return $informacionGlobal;
         } catch (\Exception $e) {
             return null;
         }

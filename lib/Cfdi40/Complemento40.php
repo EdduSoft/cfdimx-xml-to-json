@@ -14,7 +14,7 @@ class Complemento40
 {
 
     public ?TimbreFiscalDigital40 $TimbreFiscalDigital;
-    public $Nomina;
+    public ?Nomina40 $Nomina;
     public $ComercioExterior;
     public ?Pagos40 $Pagos;
     public $ImpuestosLocales;
@@ -29,7 +29,7 @@ class Complemento40
                 $complemento = $obj->getNode($xml);
                 $obj->TimbreFiscalDigital = new TimbreFiscalDigital40($complemento);
                 $obj->Pagos = new Pagos40($complemento);
-                //$obj->Nomina = new Nomina40($complemento);
+                $obj->Nomina = new Nomina40($complemento);
                 //$obj->ComercioExterior = new ComercioExterior40($complemento);
                 //$obj->ImpuestosLocales = new ImpuestosLocales40($complememento);
 

@@ -58,16 +58,18 @@ class Xml40
                 )
             );
 
-            $informacionGlobal = $xml->createElement("cfdi:InformacionGlobal");
-            $informacionGlobal = $root->appendChild($informacionGlobal);
-            $this->cargaAtt(
-                $informacionGlobal,
-                array(
-                    "Año" => $comprobante->InformacionGlobal40->Anio,
-                    "Meses" => $comprobante->InformacionGlobal40->Meses,
-                    "Periodicidad" => $comprobante->InformacionGlobal40->Periodicidad,
-                )
-            );
+            if (isset($comprobante->InformacionGlobal)) {
+                $informacionGlobal = $xml->createElement("cfdi:InformacionGlobal");
+                $informacionGlobal = $root->appendChild($informacionGlobal);
+                $this->cargaAtt(
+                    $informacionGlobal,
+                    array(
+                        "Año" => $comprobante->InformacionGlobal->Anio,
+                        "Meses" => $comprobante->InformacionGlobal->Meses,
+                        "Periodicidad" => $comprobante->InformacionGlobal->Periodicidad,
+                    )
+                );    
+            }
 
             #== 10.3.1 Se integran los datos relacionados
 

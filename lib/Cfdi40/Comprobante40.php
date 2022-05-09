@@ -47,7 +47,7 @@ class Comprobante40
     //Lib\Cfdi40\Complemento40
     public ?Complemento40 $Complemento;
     public string $VerificacionUrl;
-    public ?InformacionGlobal40 $InformacionGlobal40;
+    public ?InformacionGlobal40 $InformacionGlobal;
 
     public function getObjectXML($xml)
     {
@@ -84,7 +84,7 @@ class Comprobante40
                 $obj->Complemento = Complemento40::getComplemento($xml);
                 $obj->Relacionados = Relacionados40::getRelacionados($xml);
                 $obj->VerificacionUrl = Cfdi40::generateVerificationUrl($obj) ?? '';
-                $obj->InformacionGlobal40 = new InformacionGlobal40($comprobante[0]);
+                $obj->InformacionGlobal = InformacionGlobal40::getInformacionGlobal($comprobante[0]);
             }
             return $obj;
         } catch (\Exception $e) {

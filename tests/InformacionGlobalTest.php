@@ -25,12 +25,15 @@ class InformacionGlobalTest extends TestCase {
             echo "\n *---- File: $file ----* \n";
 
             $comp = Cfdi40::xmlToJson(file_get_contents($file));
-            $globalInformation = $comp->InformacionGlobal40;
+            if (isset($comp->InformacionGlobal)) {
+                $globalInformation = $comp->InformacionGlobal;
 
-            foreach ($attributes as $attribute) {
-                echo "\n -- Testing $attribute -- \n";
-                $value = $globalInformation->$attribute;
-                $this->assertNotNull($value);
+                foreach ($attributes as $attribute) {
+                    echo "\n -- Testing $attribute -- \n";
+                    $value = $globalInformation->$attribute;
+                    echo "\n $value \n";
+                    $this->assertNotNull($value);
+                }    
             }
         }
     }
