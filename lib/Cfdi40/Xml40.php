@@ -160,16 +160,27 @@ class Xml40
                             $Traslado = $xml->createElement("cfdi:Traslado");
                             $Traslado = $Traslados->appendChild($Traslado);
 
-                            $this->cargaAtt(
-                                $Traslado,
-                                array(
-                                    "Base" => number_format($trase->Base, 2, '.', ''),
-                                    "Impuesto" => $trase->Impuesto,
-                                    "TipoFactor" => $trase->TipoFactor,
-                                    "TasaOCuota" => $trase->TasaOCuota,
-                                    "Importe" => number_format($trase->Importe, 2, '.', '')
-                                )
-                            );
+                            if ($trase->TipoFactor == 'Exento') {
+                                $this->cargaAtt(
+                                    $Traslado,
+                                    array(
+                                        "Base" => number_format($trase->Base, 2, '.', ''),
+                                        "Impuesto" => $trase->Impuesto,
+                                        "TipoFactor" => $trase->TipoFactor,
+                                    )
+                                );
+                            } else {
+                                $this->cargaAtt(
+                                    $Traslado,
+                                    array(
+                                        "Base" => number_format($trase->Base, 2, '.', ''),
+                                        "Impuesto" => $trase->Impuesto,
+                                        "TipoFactor" => $trase->TipoFactor,
+                                        "TasaOCuota" => $trase->TasaOCuota,
+                                        "Importe" => number_format($trase->Importe, 2, '.', '')
+                                    )
+                                );
+                            }
                         }
                     }
 
@@ -240,6 +251,8 @@ class Xml40
                     );
                 }
 
+                $canLoadTotalTraslados = false;
+
                 if (count($comprobante->Impuestos->Traslados ?? []) > 0) {
                     $Traslados = $xml->createElement("cfdi:Traslados");
                     $Traslados = $Impuestos->appendChild($Traslados);
@@ -248,24 +261,38 @@ class Xml40
                         $Traslado = $xml->createElement("cfdi:Traslado");
                         $Traslado = $Traslados->appendChild($Traslado);
 
+                        if ($tras->TipoFactor == 'Exento') {
+                            $this->cargaAtt(
+                                $Traslado,
+                                array(
+                                    "Base" => $tras->Base,
+                                    "Impuesto" => $tras->Impuesto,
+                                    "TipoFactor" => $tras->TipoFactor,
+                                )
+                            );
+                        } else {
+                            $canLoadTotalTraslados = true;
+                            $this->cargaAtt(
+                                $Traslado,
+                                array(
+                                    "Base" => $tras->Base,
+                                    "Impuesto" => $tras->Impuesto,
+                                    "TipoFactor" => $tras->TipoFactor,
+                                    "TasaOCuota" => $tras->TasaOCuota,
+                                    "Importe" => number_format($tras->Importe, 2, '.', '')
+                                )
+                            );
+                        }
+                    }
+
+                    if ($canLoadTotalTraslados) {
                         $this->cargaAtt(
-                            $Traslado,
+                            $Impuestos,
                             array(
-                                "Base" => $tras->Base,
-                                "Impuesto" => $tras->Impuesto,
-                                "TipoFactor" => $tras->TipoFactor,
-                                "TasaOCuota" => $tras->TasaOCuota,
-                                "Importe" => number_format($tras->Importe, 2, '.', '')
+                                "TotalImpuestosTrasladados" => number_format($comprobante->Impuestos->TotalImpuestosTrasladados, 2, '.', '')
                             )
                         );
                     }
-
-                    $this->cargaAtt(
-                        $Impuestos,
-                        array(
-                            "TotalImpuestosTrasladados" => number_format($comprobante->Impuestos->TotalImpuestosTrasladados, 2, '.', '')
-                        )
-                    );
                 }
             }
 
