@@ -340,14 +340,84 @@ class Xml40
                     $complemento = $xml->createElement("cfdi:Complemento");
                     $complemento = $root->appendChild($complemento);
                 }
-                $pagosComplemento = $xml->createElement("pago10:Pagos");
+                $pagosComplemento = $xml->createElement("pago20:Pagos");
                 $pagosComplemento = $complemento->appendChild($pagosComplemento);
                 $this->cargaAtt($pagosComplemento, array(
                     'Version' => $comprobante->Complemento->Pagos->Version
                 ));
+                $totalesComplemento = $xml->createElement("pago20:Totales");
+                $pagosComplemento->appendChild($totalesComplemento);
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->MontoTotalPagos > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'MontoTotalPagos' => $comprobante->Complemento->Pagos->Totales->MontoTotalPagos,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalRetencionesIVA > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalRetencionesIVA' => $comprobante->Complemento->Pagos->Totales->TotalRetencionesIVA,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalRetencionesISR > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalRetencionesISR' => $comprobante->Complemento->Pagos->Totales->TotalRetencionesISR,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalRetencionesIEPS > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalRetencionesIEPS' => $comprobante->Complemento->Pagos->Totales->TotalRetencionesIEPS,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA16 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosBaseIVA16' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA16,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA16 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosImpuestoIVA16' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA16,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA8 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosBaseIVA8' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA8,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA8 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosImpuestoIVA8' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA8,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA0 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosBaseIVA0' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVA0,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA0 > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosImpuestoIVA0' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosImpuestoIVA0,
+                    ));
+                }
+
+                if ((float) $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVAExento > 0) {
+                    $this->cargaAtt($totalesComplemento, array(
+                        'TotalTrasladosBaseIVAExento' => $comprobante->Complemento->Pagos->Totales->TotalTrasladosBaseIVAExento,
+                    ));
+                }
+
+
                 foreach ($comprobante->Complemento->Pagos->Pago as $pago) {
                     #== 10.4.1.1 Nodo concepto
-                    $pagox = $xml->createElement("pago10:Pago");
+                    $pagox = $xml->createElement("pago20:Pago");
                     $pagox = $pagosComplemento->appendChild($pagox);
                     $this->cargaAtt($pagox, array(
                         'FechaPago' => $pago->FechaPago,
@@ -356,22 +426,114 @@ class Xml40
                         'Monto' => $pago->Monto,
                         'RfcEmisorCtaOrd' => $pago->RfcEmisorCtaOrd,
                         'NomBancoOrdExt' => $pago->NomBancoOrdExt,
-                        'CtaOrdenante' => $pago->CtaOrdenante
+                        'CtaOrdenante' => $pago->CtaOrdenante,
+                        'TipoCambioP' => $pago->TipoCambioP,
                     ));
 
                     if (count($pago->DoctoRelacionados) > 0) {
                         foreach ($pago->DoctoRelacionados as $docto) {
-                            $pagosDocto = $xml->createElement("pago10:DoctoRelacionado");
+                            $pagosDocto = $xml->createElement("pago20:DoctoRelacionado");
                             $pagosDocto = $pagox->appendChild($pagosDocto);
                             $this->cargaAtt($pagosDocto, array(
                                 'IdDocumento' => $docto->IdDocumento,
                                 'MonedaDR' => $docto->MonedaDR,
-                                'MetodoDePagoDR' => $docto->MetodoDePagoDR,
+                                //'MetodoDePagoDR' => $docto->MetodoDePagoDR,
                                 'NumParcialidad' => $docto->NumParcialidad,
                                 'ImpSaldoAnt' => $docto->ImpSaldoAnt,
                                 'ImpPagado' => $docto->ImpPagado,
-                                'ImpSaldoInsoluto' => $docto->ImpSaldoInsoluto
+                                'ImpSaldoInsoluto' => $docto->ImpSaldoInsoluto,
+                                'ObjetoImpDR' => $docto->ObjetoImpDR,
+                                'EquivalenciaDR' => $docto->EquivalenciaDR,
                             ));
+
+                            if (count($docto->ImpuestosDR->TrasladosDR ?? []) > 0 || count($docto->ImpuestosDR->RetencionesDR ?? []) > 0) {
+                                $hasTaxes = true;
+                                $ImpuestosDR = $xml->createElement("pago20:ImpuestosDR");
+                                $ImpuestosDR = $pagosDocto->appendChild($ImpuestosDR);
+
+                                if (count($docto->ImpuestosDR->RetencionesDR ?? []) > 0) {
+                                    $RetencionesDR = $xml->createElement("pago20:RetencionesDR");
+                                    $RetencionesDR = $ImpuestosDR->appendChild($RetencionesDR);
+
+                                    foreach ($docto->ImpuestosDR->RetencionesDR as $retDR) {
+                                        $retencionDR = $xml->createElement("pago20:RetencionDR");
+                                        $retencionDR = $RetencionesDR->appendChild($retencionDR);
+                                        $this->cargaAtt(
+                                            $retencionDR,
+                                            array(
+                                                "BaseDR" => number_format($retDR->BaseDR, 4, '.', ''),
+                                                "ImpuestoDR" => $retDR->ImpuestoDR,
+                                                "TipoFactorDR" => $retDR->TipoFactorDR,
+                                                "TasaOCuotaDR" => $retDR->TasaOCuotaDR,
+                                                "ImporteDR" => number_format($retDR->ImporteDR, 4, '.', '')
+                                            )
+                                        );
+                                    }
+                                }
+
+                                if (count($docto->ImpuestosDR->TrasladosDR ?? []) > 0) {
+                                    $TrasladosDR = $xml->createElement("pago20:TrasladosDR");
+                                    $TrasladosDR = $ImpuestosDR->appendChild($TrasladosDR);
+
+                                    foreach ($docto->ImpuestosDR->TrasladosDR as $trasDR) {
+                                        $TrasladoDR = $xml->createElement("pago20:TrasladoDR");
+                                        $TrasladoDR = $TrasladosDR->appendChild($TrasladoDR);
+                                        $this->cargaAtt(
+                                            $TrasladoDR,
+                                            array(
+                                                "BaseDR" => number_format($trasDR->BaseDR, 4, '.', ''),
+                                                "ImpuestoDR" => $trasDR->ImpuestoDR,
+                                                "TipoFactorDR" => $trasDR->TipoFactorDR,
+                                                "TasaOCuotaDR" => $trasDR->TasaOCuotaDR,
+                                                "ImporteDR" => number_format($trasDR->ImporteDR, 4, '.', '')
+                                            )
+                                        );
+                                    }
+                                }
+                            }
+
+                            if (!empty($pago->ImpuestosP ?? null)) {
+                                $impuestosP = $xml->createElement("pago20:ImpuestosP");
+                                $impuestosP = $pagox->appendChild($impuestosP);
+                                
+                                if (count($pago->ImpuestosP->RetencionesP ?? []) > 0) {
+                                    $RetencionesP = $xml->createElement("pago20:RetencionesP");
+                                    $RetencionesP = $impuestosP->appendChild($RetencionesP);
+
+                                    foreach ($pago->ImpuestosP->RetencionesP as $retencion) {
+                                        $retencionP = $xml->createElement("pago20:RetencionP");
+                                        $retencionP = $RetencionesP->appendChild($retencionP);
+                                        $this->cargaAtt(
+                                            $retencionP,
+                                            array(
+                                                "ImpuestoP" => $retencion->ImpuestoP,
+                                                "ImporteP" =>  number_format($retencion->ImporteP, 4, '.', ''),
+                                            )
+                                        );
+                                    }
+                                }
+
+                                if (count($pago->ImpuestosP->TrasladosP ?? []) > 0) {
+                                    $TasladosP = $xml->createElement("pago20:TrasladosP");
+                                    $TasladosP = $impuestosP->appendChild($TasladosP);
+
+                                    $trasladoP = $xml->createElement("pago20:TrasladoP");
+                                    $trasladoP = $TasladosP->appendChild($trasladoP);
+                                    
+                                    foreach ($pago->ImpuestosP->TrasladosP as $traslado) {
+                                        $this->cargaAtt(
+                                            $trasladoP,
+                                            array(
+                                                "BaseP" =>  number_format($traslado->BaseP, 4, '.', ''),
+                                                "ImpuestoP" => $traslado->ImpuestoP,
+                                                "TipoFactorP" => $traslado->TipoFactorP,
+                                                "TasaOCuotaP" => $traslado->TasaOCuotaP,
+                                                "ImporteP" => number_format($traslado->ImporteP, 4, '.', ''),
+                                            )
+                                        );
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -558,8 +720,8 @@ class Xml40
                 break;
             case 'P':
                 $nameSpaces["xsi:schemaLocation"] =
-                    "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd http://www.sat.gob.mx/Pagos http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos20.xsd";
-                $nameSpaces["xmlns:pago20"] = "http://www.sat.gob.mx/Pagos";
+                    "http://www.sat.gob.mx/Pagos20 http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos20.xsd http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd";
+                $nameSpaces["xmlns:pago20"] = "http://www.sat.gob.mx/Pagos20";
                 break;
             default:
                 # code...

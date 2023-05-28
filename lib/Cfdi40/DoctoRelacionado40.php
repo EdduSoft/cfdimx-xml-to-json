@@ -15,6 +15,9 @@ class DoctoRelacionado40
 	public $ImpPagado;
 	public $ImpSaldoInsoluto;
 	public $TipoCambioDR;
+	public $ObjetoImpDR;
+	public $EquivalenciaDR;
+	public $ImpuestosDR;
 
 	public static function getDoctos($pago)
 	{
@@ -30,6 +33,9 @@ class DoctoRelacionado40
 			$dr->ImpPagado = Helper::getAttr('ImpPagado', $doc);
 			$dr->ImpSaldoInsoluto = Helper::getAttr('ImpSaldoInsoluto', $doc);
 			$dr->TipoCambioDR = Helper::getAttr('TipoCambioDR', $doc);
+			$dr->ObjetoImpDR = Helper::getAttr('ObjetoImpDR', $doc);
+			$dr->EquivalenciaDR = Helper::getAttr('EquivalenciaDR', $doc);
+			$dr->ImpuestosDR = ImpuestosDR40::getImpuestos($doc);
 			array_push($arr, $dr);
 		}
 		return $arr;

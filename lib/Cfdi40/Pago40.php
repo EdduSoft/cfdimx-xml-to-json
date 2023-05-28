@@ -14,6 +14,8 @@ class Pago40
 	public $NomBancoOrdExt;
 	public $CtaOrdenante;
 	public ?array $DoctoRelacionados;
+	public $TipoCambioP;
+	public $ImpuestosP;
 
 	public static function getPagos($pago)
 	{
@@ -28,6 +30,8 @@ class Pago40
 			$pag->NomBancoOrdExt = Helper::getAttr('NomBancoOrdExt', $pago);
 			$pag->CtaOrdenante = Helper::getAttr('CtaOrdenante', $pago);
 			$pag->DoctoRelacionados = DoctoRelacionado40::getDoctos($pago);
+			$pag->TipoCambioP = Helper::getAttr('TipoCambioP', $pago);
+			$pag->ImpuestosP = ImpuestosP40::getImpuestos($pago);
 
 			return $pag;
 		} catch (\Exception $e) {
